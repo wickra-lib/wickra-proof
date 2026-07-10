@@ -1,0 +1,16 @@
+Package: wickraproof
+Type: Package
+Title: Deterministic Proof-of-Backtest Core
+Version: 0.1.0
+Authors@R: person("kingchenc", role = c("aut", "cre"), email = "support@wickra.org")
+Description: R bindings for wickra-proof over its C ABI hub: create a stateless
+    Prover, prove a (spec, data) pair to a canonical report and blake3 hash, and
+    verify a proof - the same protocol as the CLI and every other binding.
+License: MIT + file LICENSE | Apache License 2.0
+URL: https://github.com/wickra-lib/wickra-proof
+BugReports: https://github.com/wickra-lib/wickra-proof/issues
+Encoding: UTF-8
+NeedsCompilation: yes
+SystemRequirements: the wickra-proof C ABI shared library (WKPROOF_LIB) and its
+    header (WKPROOF_INC).
+RoxygenNote: 7.3.2

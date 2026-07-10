@@ -1,0 +1,4 @@
+useDynLib(wickraproof, .registration = TRUE, .fixes = "C_")
+export(wkproof_version)
+export(wkproof_new)
+export(wkproof_command)
