@@ -510,6 +510,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "wickra-proof-c"
+version = "0.1.0"
+dependencies = [
+ "proof-core",
+]
+
+[[package]]
 name = "wickra-proof-cli"
 version = "0.1.0"
 dependencies = [
