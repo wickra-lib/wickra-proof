@@ -5,6 +5,8 @@ canonical command_json string verbatim, so byte equality is the exact
 cross-language parity check — the same blake3 report/inputs hashes in every
 language. The blessed proof also verifies, and a tampered one does not."""
 
+from __future__ import annotations
+
 import json
 from pathlib import Path
 
