@@ -1348,6 +1348,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "wickra-proof-example"
+version = "0.1.0"
+dependencies = [
+ "proof-core",
+ "serde_json",
+]
+
+[[package]]
 name = "wickra-proof-node"
 version = "0.1.0"
 dependencies = [
