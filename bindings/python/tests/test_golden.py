@@ -1,47 +1,60 @@
-"""Determinism is the product: a fixed (spec, data) proves to the same hash on
-every call, and a genuine proof verifies while a tampered one does not."""
+"""Cross-language golden parity: for each committed golden/specs/*.json, prove
+over the shared golden/data.json and assert the response equals
+golden/expected/<spec>.json byte-for-byte. The binding returns the core's
+canonical command_json string verbatim, so byte equality is the exact
+cross-language parity check — the same blake3 report/inputs hashes in every
+language. The blessed proof also verifies, and a tampered one does not."""
 
 import json
+from pathlib import Path
+
+import pytest
 
 from wickra_proof import Prover
 
-from test_smoke import _candles, STRATEGY
 
-SPEC = {"strategy": STRATEGY, "dataset_ref": "BTCUSDT/1h/golden"}
-DATA = {"BTCUSDT": _candles()}
-
-
-def _prove(prover: Prover) -> dict:
-    return json.loads(
-        prover.command(json.dumps({"cmd": "prove", "spec": SPEC, "data": DATA}))
-    )
+def _golden_dir() -> Path | None:
+    """Walk up from this test file to the repo root that holds golden/specs."""
+    for parent in Path(__file__).resolve().parents:
+        g = parent / "golden"
+        if (g / "specs").is_dir():
+            return g
+    return None
 
 
-def test_prove_is_reproducible() -> None:
-    a = _prove(Prover())
-    b = _prove(Prover())
-    assert a["report_hash"] == b["report_hash"]
-    assert a["inputs_hash"] == b["inputs_hash"]
+GOLDEN = _golden_dir()
 
 
-def test_verify_accepts_genuine_and_rejects_tampered() -> None:
+@pytest.mark.skipif(GOLDEN is None, reason="golden fixtures not present")
+def test_golden_proofs_are_byte_identical() -> None:
+    data = json.loads((GOLDEN / "data.json").read_text())
+    spec_paths = sorted((GOLDEN / "specs").glob("*.json"))
+    assert spec_paths, "expected at least one golden spec"
+
     prover = Prover()
-    proof = _prove(prover)
+    for spec_path in spec_paths:
+        name = spec_path.name
+        spec = json.loads(spec_path.read_text())
+        got = prover.command(json.dumps({"cmd": "prove", "spec": spec, "data": data}))
+        expected = (GOLDEN / "expected" / name).read_text().strip()
+        assert got.strip() == expected, f"golden mismatch for {name}"
 
-    good = json.loads(
-        prover.command(
-            json.dumps({"cmd": "verify", "proof": proof, "spec": SPEC, "data": DATA})
-        )
-    )
-    assert good == {"ok": True, "valid": True}
-
-    tampered = dict(proof)
-    tampered["report_hash"] = "0" * 64
-    bad = json.loads(
-        prover.command(
-            json.dumps(
-                {"cmd": "verify", "proof": tampered, "spec": SPEC, "data": DATA}
+        # The blessed proof verifies against its inputs; a tampered one does not.
+        proof = json.loads(expected)
+        good = json.loads(
+            prover.command(
+                json.dumps({"cmd": "verify", "proof": proof, "spec": spec, "data": data})
             )
         )
-    )
-    assert bad == {"ok": True, "valid": False}
+        assert good == {"ok": True, "valid": True}, f"verify(blessed) {name}"
+
+        tampered = dict(proof)
+        tampered["report_hash"] = "0" * 64
+        bad = json.loads(
+            prover.command(
+                json.dumps(
+                    {"cmd": "verify", "proof": tampered, "spec": spec, "data": data}
+                )
+            )
+        )
+        assert bad == {"ok": True, "valid": False}, f"verify(tampered) {name}"

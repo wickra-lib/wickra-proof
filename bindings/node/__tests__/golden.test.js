@@ -1,70 +1,62 @@
 "use strict";
 
-// Determinism is the product: a fixed (spec, data) proves to the same hash on
-// every call, and a genuine proof verifies while a tampered one does not.
-// Mirrors the Python binding's test_golden.py so every language pins the same
-// contract.
+// Cross-language golden parity: for each committed golden/specs/*.json, prove
+// over the shared golden/data.json and assert the response equals
+// golden/expected/<spec>.json byte-for-byte. The binding returns the core's
+// canonical command_json string verbatim, so byte equality is the exact
+// cross-language parity check — the same blake3 report/inputs hashes in every
+// language. The blessed proof also verifies, and a tampered one does not.
 
 const { test } = require("node:test");
 const assert = require("node:assert");
+const fs = require("node:fs");
+const path = require("node:path");
 const { Prover } = require("../index.js");
 
-const STRATEGY = {
-  symbol: "BTCUSDT",
-  timeframe: "1h",
-  indicators: {
-    ema_fast: { type: "Ema", params: [5] },
-    ema_slow: { type: "Ema", params: [15] },
-  },
-  entry: { cross_above: ["ema_fast", "ema_slow"] },
-  exit: { cross_below: ["ema_fast", "ema_slow"] },
-  sizing: { type: "fixed_fraction", fraction: 0.95 },
-  costs: { taker_bps: 5, slippage: { type: "fixed_bps", bps: 2 } },
-  risk: { trailing_stop_pct: 5.0 },
-};
-
-function candles() {
-  const out = [];
-  for (let i = 0; i < 40; i++) {
-    const base = 100.0 + Math.sin(i * 0.4) * 8.0;
-    out.push({
-      time: 1_700_000_000 + i * 3600,
-      open: base,
-      high: base + 1.0,
-      low: base - 1.0,
-      close: base + 0.5,
-      volume: 1000.0,
-    });
+// Walk up from this test file to the repo root that holds golden/specs.
+function goldenDir() {
+  let dir = __dirname;
+  for (let i = 0; i < 8; i++) {
+    const g = path.join(dir, "golden");
+    if (fs.existsSync(path.join(g, "specs"))) {
+      return g;
+    }
+    dir = path.dirname(dir);
   }
-  return out;
+  return null;
 }
 
-const SPEC = { strategy: STRATEGY, dataset_ref: "BTCUSDT/1h/golden" };
-const DATA = { BTCUSDT: candles() };
+const G = goldenDir();
 
-function prove(prover) {
-  return JSON.parse(prover.command(JSON.stringify({ cmd: "prove", spec: SPEC, data: DATA })));
-}
+test(
+  "golden proofs are byte-identical across languages",
+  { skip: G ? false : "golden fixtures not present" },
+  () => {
+    const data = JSON.parse(fs.readFileSync(path.join(G, "data.json"), "utf8"));
+    const specNames = fs
+      .readdirSync(path.join(G, "specs"))
+      .filter((n) => n.endsWith(".json"));
+    assert.ok(specNames.length > 0, "expected at least one golden spec");
 
-test("prove is reproducible", () => {
-  const a = prove(new Prover());
-  const b = prove(new Prover());
-  assert.strictEqual(a.report_hash, b.report_hash);
-  assert.strictEqual(a.inputs_hash, b.inputs_hash);
-});
+    const prover = new Prover();
+    for (const name of specNames) {
+      const spec = JSON.parse(fs.readFileSync(path.join(G, "specs", name), "utf8"));
+      const got = prover.command(JSON.stringify({ cmd: "prove", spec, data }));
+      const expected = fs.readFileSync(path.join(G, "expected", name), "utf8").trim();
+      assert.strictEqual(got.trim(), expected, `golden mismatch for ${name}`);
 
-test("verify accepts a genuine proof and rejects a tampered one", () => {
-  const prover = new Prover();
-  const proof = prove(prover);
+      // The blessed proof verifies against its inputs; a tampered one does not.
+      const proof = JSON.parse(expected);
+      const good = JSON.parse(
+        prover.command(JSON.stringify({ cmd: "verify", proof, spec, data })),
+      );
+      assert.deepStrictEqual(good, { ok: true, valid: true }, `verify(blessed) ${name}`);
 
-  const good = JSON.parse(
-    prover.command(JSON.stringify({ cmd: "verify", proof, spec: SPEC, data: DATA })),
-  );
-  assert.deepStrictEqual(good, { ok: true, valid: true });
-
-  const tampered = { ...proof, report_hash: "0".repeat(64) };
-  const bad = JSON.parse(
-    prover.command(JSON.stringify({ cmd: "verify", proof: tampered, spec: SPEC, data: DATA })),
-  );
-  assert.deepStrictEqual(bad, { ok: true, valid: false });
-});
+      const tampered = { ...proof, report_hash: "0".repeat(64) };
+      const bad = JSON.parse(
+        prover.command(JSON.stringify({ cmd: "verify", proof: tampered, spec, data })),
+      );
+      assert.deepStrictEqual(bad, { ok: true, valid: false }, `verify(tampered) ${name}`);
+    }
+  },
+);
