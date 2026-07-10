@@ -21,6 +21,10 @@ pub use error::{Error, Result};
 pub use proof::{prove, verify, Proof, Prover};
 pub use spec::ProofSpec;
 
+/// The OHLCV candle type consumed by [`prove`]/[`verify`], re-exported from the
+/// pinned backtest engine so consumers do not depend on it directly.
+pub use wickra_backtest_core::Candle;
+
 /// The proof-core crate version.
 #[must_use]
 pub fn version() -> &'static str {
