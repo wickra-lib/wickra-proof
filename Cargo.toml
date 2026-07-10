@@ -11,7 +11,7 @@
 
 [workspace]
 resolver = "2"
-members = ["crates/proof-core", "crates/wickra-proof-cli"]
+members = ["crates/proof-core", "crates/wickra-proof-cli", "bindings/c"]
 # The fuzz crate is its own (detached) workspace — cargo-fuzz builds it on a
 # nightly toolchain with sanitizer flags.
 exclude = ["fuzz"]
