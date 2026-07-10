@@ -5,8 +5,11 @@
 //! 1. Object keys are sorted ascending by Unicode code point (`BTreeMap`).
 //! 2. No whitespace: `,` and `:` separators, nothing else.
 //! 3. Every float is quantized via `round_to(x, 1e-8)` and formatted with a
-//!    fixed decimal representation (always at least one fractional digit).
-//!    Integers stay integers.
+//!    fixed decimal representation, trailing zeros trimmed. A whole-valued float
+//!    collapses to its integer token (`1.0` -> `"1"`), because JSON in most host
+//!    languages (JavaScript above all) cannot preserve the `.0`: `JSON.stringify`
+//!    emits `1`, and the hash must be byte-identical regardless of which language
+//!    loaded the spec. Integers stay integers by the same token.
 //! 4. `NaN` / `±inf` cannot occur: `serde_json` rejects them at parse time, so
 //!    every `Value` number is a finite integer or float by construction.
 //! 5. Strings use `serde_json`'s standard escaping.
@@ -23,8 +26,11 @@ fn round_to(x: f64) -> f64 {
 }
 
 /// Format a quantized float with a fixed, cross-language-stable decimal form:
-/// eight fractional digits, trailing zeros trimmed but always one digit kept,
-/// and negative zero normalized to `0.0`.
+/// eight fractional digits, trailing zeros trimmed, and a whole value collapsed
+/// to its bare integer token (`1.0` -> `"1"`). The integer collapse is essential:
+/// a host language cannot distinguish `1.0` from `1` in JSON — `JSON.stringify`
+/// emits `1` — so the only representation every language can reproduce for a
+/// whole number is the integer one. Negative zero normalizes to `0`.
 fn format_f64(x: f64) -> String {
     let x = if x == 0.0 { 0.0 } else { x };
     let mut s = format!("{x:.8}");
@@ -33,7 +39,7 @@ fn format_f64(x: f64) -> String {
             s.pop();
         }
         if s.ends_with('.') {
-            s.push('0');
+            s.pop();
         }
     }
     s

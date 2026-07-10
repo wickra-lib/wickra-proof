@@ -67,9 +67,11 @@ fn canonicalize_sorts_keys_and_strips_whitespace() {
 
 #[test]
 fn canonicalize_rounds_floats_and_keeps_integers() {
-    // Float is quantized to 1e-8 and kept as a float; integer stays an integer.
-    let v = json!({ "b": 1.000_000_000_4, "a": 2 });
-    assert_eq!(canonicalize(&v).unwrap(), "{\"a\":2,\"b\":1.0}");
+    // A float is quantized to 1e-8; a whole value collapses to its integer token
+    // (so `1.0` and `1` are indistinguishable across languages), a fractional one
+    // keeps its digits.
+    let v = json!({ "b": 1.000_000_000_4, "a": 2, "c": 1.5 });
+    assert_eq!(canonicalize(&v).unwrap(), "{\"a\":2,\"b\":1,\"c\":1.5}");
 }
 
 #[test]
