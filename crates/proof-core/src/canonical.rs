@@ -21,8 +21,22 @@ use std::collections::BTreeMap;
 use std::fmt::Write as _;
 
 /// Quantize a float to 1e-8 so its representation is identical across languages.
+///
+/// The multiply-round-divide is only exact — and only a fixed point, which
+/// canonicalization must be — while `x * 1e8` stays inside f64's exact-integer
+/// range (`2^53`). Beyond that the scaling loses precision and re-canonicalizing
+/// the formatted value would drift; at that magnitude the number is already
+/// integral in f64, so a 1e-8 grid is meaningless anyway. Pass such values
+/// through unchanged and let `format_f64` render them (it still rounds to eight
+/// fractional digits). `x.abs() * 1e8` may overflow to infinity for huge inputs;
+/// `inf >= MAX_EXACT` is `true`, so those take the pass-through branch too.
 fn round_to(x: f64) -> f64 {
-    (x * 1e8).round() / 1e8
+    const MAX_EXACT: f64 = 9_007_199_254_740_992.0; // 2^53
+    if x.abs() * 1e8 >= MAX_EXACT {
+        x
+    } else {
+        (x * 1e8).round() / 1e8
+    }
 }
 
 /// Format a quantized float with a fixed, cross-language-stable decimal form:
@@ -33,6 +47,15 @@ fn round_to(x: f64) -> f64 {
 /// whole number is the integer one. Negative zero normalizes to `0`.
 fn format_f64(x: f64) -> String {
     let x = if x == 0.0 { 0.0 } else { x };
+    // Beyond 2^53 every f64 is integral, and `{:.8}` would emit that integer's
+    // full exact decimal expansion — which serde_json's float parser does not
+    // round-trip (it lands on an adjacent f64), breaking idempotence. The
+    // shortest round-trippable form (`Display`, always positional for f64, never
+    // scientific) re-parses to the same value. A 1e-8 grid is meaningless at this
+    // magnitude anyway, so there is nothing to quantize.
+    if x.abs() >= 9_007_199_254_740_992.0 {
+        return format!("{x}");
+    }
     let mut s = format!("{x:.8}");
     if s.contains('.') {
         while s.ends_with('0') {

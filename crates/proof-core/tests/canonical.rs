@@ -51,6 +51,33 @@ fn a_whole_float_and_its_integer_are_indistinguishable() {
 }
 
 #[test]
+fn canonicalization_is_idempotent_for_extreme_magnitudes() {
+    // Canonicalization must be a fixed point: re-parsing a canonical form and
+    // canonicalizing it again yields the identical bytes. Huge magnitudes are
+    // the trap — quantizing `5e55` via `x * 1e8` overflows f64's exact-integer
+    // range and used to drift on the second pass (found by the canonicalize
+    // fuzz target, input `5e55`). Values this large are already integral in
+    // f64, so they must pass through and round-trip stably.
+    for value in [
+        json!(5e55),
+        json!(-5e55),
+        json!(1e300),
+        json!(9.007_199_254_740_993e15),
+        json!(1e16),
+        json!(-1e16),
+    ] {
+        let once = canonicalize(&value).unwrap();
+        let reparsed: serde_json::Value = serde_json::from_str(&once).unwrap();
+        let twice = canonicalize(&reparsed).unwrap();
+        assert_eq!(once, twice, "canonicalization not idempotent for {value}");
+        assert!(
+            !once.contains('e') && !once.contains('E'),
+            "canonical form must not use scientific notation: {once}"
+        );
+    }
+}
+
+#[test]
 fn a_difference_below_1e8_canonicalizes_identically() {
     // Two floats that differ only past the 8th fractional digit round together.
     let a = canonicalize(&json!(1.000_000_001_f64)).unwrap();
