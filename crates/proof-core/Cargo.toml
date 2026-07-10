@@ -1,0 +1,28 @@
+[package]
+name = "proof-core"
+description = "Deterministic Proof-of-Backtest core: fold a (spec, data) pair into a wickra-backtest report and a canonical blake3 hash reproducible byte-for-byte across ten languages."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# The backtest engine (run + version); its version() is the engine_version pin.
+wickra-backtest-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+thiserror.workspace = true
+blake3.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
