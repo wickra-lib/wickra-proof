@@ -1,0 +1,16 @@
+{
+  "strategy": {
+    "symbol": "AAA",
+    "timeframe": "1h",
+    "indicators": {
+      "sma_fast": { "type": "Sma", "params": [3] },
+      "sma_slow": { "type": "Sma", "params": [8] }
+    },
+    "entry": { "cross_above": ["sma_fast", "sma_slow"] },
+    "exit": { "cross_below": ["sma_fast", "sma_slow"] },
+    "sizing": { "type": "fixed_fraction", "fraction": 0.95 },
+    "costs": { "taker_bps": 5, "slippage": { "type": "fixed_bps", "bps": 2 } },
+    "risk": { "trailing_stop_pct": 5.0 }
+  },
+  "dataset_ref": "golden/AAA/1h"
+}

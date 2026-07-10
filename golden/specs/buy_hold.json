@@ -1,0 +1,13 @@
+{
+  "strategy": {
+    "symbol": "BBB",
+    "timeframe": "1h",
+    "indicators": { "rsi": { "type": "Rsi", "params": [14] } },
+    "entry": { "lt": ["rsi", 100] },
+    "exit": { "gt": ["rsi", 100] },
+    "sizing": { "type": "fixed_fraction", "fraction": 1.0 },
+    "costs": { "taker_bps": 0, "slippage": { "type": "fixed_bps", "bps": 0 } },
+    "risk": {}
+  },
+  "dataset_ref": "golden/BBB/1h"
+}
