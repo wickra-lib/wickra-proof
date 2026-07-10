@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -67,7 +68,11 @@ func TestGoldenParity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%s: %v", name, err)
 		}
-		if raw != string(expected) {
+		// Trim trailing whitespace on both sides: the committed fixture ends with
+		// a newline while the core's canonical command string does not. The
+		// canonical form itself is whitespace-free, so trimming compares the exact
+		// bytes that carry meaning — the same check every other binding makes.
+		if strings.TrimSpace(raw) != strings.TrimSpace(string(expected)) {
 			t.Fatalf("%s: golden mismatch", name)
 		}
 	}

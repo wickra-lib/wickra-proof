@@ -40,7 +40,12 @@ wickra-data = "0.9"
 proof-core = { version = "0.1.0", path = "crates/proof-core" }
 # Serialization — the data-driven boundary (spec/proof/report/command as JSON).
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+# `float_roundtrip` makes serde_json's float parser correctly rounded: a float
+# re-parses to the exact same f64 it was written from. Without it the parser can
+# land on an adjacent f64 for large magnitudes, which breaks canonicalization
+# idempotence (canonicalize -> parse -> canonicalize must be a fixed point) — the
+# moat's load-bearing invariant, checked by the `canonicalize` fuzz target.
+serde_json = { version = "1", features = ["float_roundtrip"] }
 toml = "1.1"
 # Exact decimal arithmetic where price/qty precision matters.
 rust_decimal = { version = "1", features = ["serde"] }
