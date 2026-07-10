@@ -1,0 +1,47 @@
+[package]
+name = "wickra-proof-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The core; the fuzz build is sequential and lean.
+proof-core = { path = "../crates/proof-core" }
+
+# Detach from the parent workspace — cargo-fuzz builds this crate on its own with
+# sanitizer flags on a nightly toolchain.
+[workspace]
+
+[[bin]]
+name = "spec_parse"
+path = "fuzz_targets/spec_parse.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "canonicalize"
+path = "fuzz_targets/canonicalize.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "prove"
+path = "fuzz_targets/prove.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "verify_roundtrip"
+path = "fuzz_targets/verify_roundtrip.rs"
+test = false
+doc = false
+bench = false
