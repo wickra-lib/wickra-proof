@@ -59,6 +59,14 @@ fn format_f64(x: f64) -> String {
             s.pop();
         }
     }
+    // A small negative that rounds to zero at eight decimals formats as
+    // `-0.00000000`, which trims to `-0`. Re-parsing `-0` yields `-0.0`, which
+    // the `x == 0.0` guard above collapses to `0` — so the signed form would
+    // break idempotence. Drop the sign whenever the rounded value is zero.
+    if s == "-0" {
+        s.clear();
+        s.push('0');
+    }
     s
 }
 

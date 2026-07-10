@@ -74,6 +74,14 @@ fn canonicalization_is_idempotent_for_extreme_magnitudes() {
         json!(45_035_995.0_f64),
         json!(45_035_997.0_f64),
         json!(9_999_999.999_999_99_f64),
+        // Tiny negatives that round to zero at eight decimals: `{:.8}` formats
+        // them as `-0.00000000`, which trims to `-0`, but re-parsing `-0` yields
+        // `-0.0` -> `0`. Without the sign-of-zero normalization the first pass
+        // emitted `-0` and the second `0` (found by the canonicalize fuzz target
+        // on an input around `-3.39e-339`).
+        json!(-1e-9_f64),
+        json!(-1e-300_f64),
+        json!(-0.000_000_004_f64),
     ] {
         let once = canonicalize(&value).unwrap();
         let reparsed: serde_json::Value = serde_json::from_str(&once).unwrap();
