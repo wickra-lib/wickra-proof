@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "wickra-proof"
+abstract: >-
+  Proof-of-Backtest built on the Wickra core: a (spec, data) pair is folded into
+  a deterministic backtest report and a canonical blake3 hash that anyone can
+  recompute byte-for-byte in ten languages, turning "trust-me-bro" backtest
+  screenshots into independently verifiable claims. Exposed as a
+  JSON-over-C-ABI data API in ten languages.
+type: software
+authors:
+  - alias: kingchenc
+    website: "https://wickra.org"
+repository-code: "https://github.com/wickra-lib/wickra-proof"
+url: "https://wickra.org"
+license:
+  - MIT
+  - Apache-2.0
+keywords:
+  - trading
+  - backtest
+  - proof
+  - determinism
+  - reproducibility
+  - finance
