@@ -4,12 +4,14 @@
 //! The rules (each normative):
 //! 1. Object keys are sorted ascending by Unicode code point (`BTreeMap`).
 //! 2. No whitespace: `,` and `:` separators, nothing else.
-//! 3. Every float is quantized via `round_to(x, 1e-8)` and formatted with a
-//!    fixed decimal representation, trailing zeros trimmed. A whole-valued float
-//!    collapses to its integer token (`1.0` -> `"1"`), because JSON in most host
-//!    languages (JavaScript above all) cannot preserve the `.0`: `JSON.stringify`
-//!    emits `1`, and the hash must be byte-identical regardless of which language
-//!    loaded the spec. Integers stay integers by the same token.
+//! 3. Every float is quantized to 1e-8 by decimal rounding (`{:.8}`), trailing
+//!    zeros trimmed. A whole-valued float collapses to its integer token
+//!    (`1.0` -> `"1"`), because JSON in most host languages (JavaScript above
+//!    all) cannot preserve the `.0`: `JSON.stringify` emits `1`, and the hash
+//!    must be byte-identical regardless of which language loaded the spec.
+//!    Integers stay integers by the same token. Magnitudes at or above
+//!    `2^52 * 1e-8` (where the f64 ULP reaches the grid) instead use the
+//!    shortest round-trippable form, keeping canonicalization a fixed point.
 //! 4. `NaN` / `±inf` cannot occur: `serde_json` rejects them at parse time, so
 //!    every `Value` number is a finite integer or float by construction.
 //! 5. Strings use `serde_json`'s standard escaping.
@@ -20,40 +22,32 @@ use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fmt::Write as _;
 
-/// Quantize a float to 1e-8 so its representation is identical across languages.
-///
-/// The multiply-round-divide is only exact — and only a fixed point, which
-/// canonicalization must be — while `x * 1e8` stays inside f64's exact-integer
-/// range (`2^53`). Beyond that the scaling loses precision and re-canonicalizing
-/// the formatted value would drift; at that magnitude the number is already
-/// integral in f64, so a 1e-8 grid is meaningless anyway. Pass such values
-/// through unchanged and let `format_f64` render them (it still rounds to eight
-/// fractional digits). `x.abs() * 1e8` may overflow to infinity for huge inputs;
-/// `inf >= MAX_EXACT` is `true`, so those take the pass-through branch too.
-fn round_to(x: f64) -> f64 {
-    const MAX_EXACT: f64 = 9_007_199_254_740_992.0; // 2^53
-    if x.abs() * 1e8 >= MAX_EXACT {
-        x
-    } else {
-        (x * 1e8).round() / 1e8
-    }
-}
-
-/// Format a quantized float with a fixed, cross-language-stable decimal form:
+/// Format a float in a fixed, cross-language-stable, idempotent decimal form:
 /// eight fractional digits, trailing zeros trimmed, and a whole value collapsed
 /// to its bare integer token (`1.0` -> `"1"`). The integer collapse is essential:
 /// a host language cannot distinguish `1.0` from `1` in JSON — `JSON.stringify`
 /// emits `1` — so the only representation every language can reproduce for a
 /// whole number is the integer one. Negative zero normalizes to `0`.
+///
+/// Quantization to 1e-8 is done purely by the `{:.8}` decimal rounding — no
+/// separate binary-grid step. That matters for the moat's load-bearing property:
+/// canonicalization must be a fixed point (canonicalize -> parse -> canonicalize
+/// yields the same bytes). Rounding to eight decimals is a fixed point only while
+/// the 1e-8 grid is coarser than the f64 ULP, i.e. `|x| < 2^52 * 1e-8`; a binary
+/// `(x*1e8).round()/1e8` grid disagrees with the decimal one right at that
+/// boundary and used to drift (found by the canonicalize fuzz target on inputs
+/// like `44447444.444...` and `5e55`).
+///
+/// At or above that magnitude the 1e-8 grid is finer than f64 can represent, so
+/// `{:.8}` is meaningless and unstable; emit the shortest round-trippable form
+/// (`Display`, always positional for f64, never scientific) instead, which
+/// re-parses to the same value under `serde_json`'s `float_roundtrip` parser.
 fn format_f64(x: f64) -> String {
+    // 2^52 * 1e-8: the magnitude at which the f64 ULP first reaches the 1e-8
+    // grid. Below it, decimal rounding to eight places is a fixed point.
+    const GRID_RESOLUTION_LIMIT: f64 = 45_035_996.273_704_96;
     let x = if x == 0.0 { 0.0 } else { x };
-    // Beyond 2^53 every f64 is integral, and `{:.8}` would emit that integer's
-    // full exact decimal expansion — which serde_json's float parser does not
-    // round-trip (it lands on an adjacent f64), breaking idempotence. The
-    // shortest round-trippable form (`Display`, always positional for f64, never
-    // scientific) re-parses to the same value. A 1e-8 grid is meaningless at this
-    // magnitude anyway, so there is nothing to quantize.
-    if x.abs() >= 9_007_199_254_740_992.0 {
+    if x.abs() >= GRID_RESOLUTION_LIMIT {
         return format!("{x}");
     }
     let mut s = format!("{x:.8}");
@@ -78,7 +72,7 @@ fn write_number(out: &mut String, n: &serde_json::Number) {
         // rejects NaN/inf at parse time and never yields an unrepresentable
         // number here.
         let f = n.as_f64().unwrap_or(0.0);
-        out.push_str(&format_f64(round_to(f)));
+        out.push_str(&format_f64(f));
     }
 }
 
