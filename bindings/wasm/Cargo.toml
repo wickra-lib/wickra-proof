@@ -1,0 +1,33 @@
+[package]
+name = "wickra-proof-wasm"
+description = "WebAssembly bindings for wickra-proof — the deterministic Proof-of-Backtest core in the browser."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# Modern rustc emits a wasm feature set (bulk-memory, sign-ext, …) that the
+# wasm-opt bundled with wasm-pack is too old to validate. The wasm-bindgen output
+# is already valid and functional; skip the optional size-only optimizer pass.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[lints]
+workspace = true
+
+[dependencies]
+# The proof core without default features: no rayon in the backtest engine, so
+# the run is sequential and byte-identical to the native one — the exact
+# cross-language golden check. Declared as a direct path dep, not
+# `workspace = true`, because cargo silently ignores `default-features = false`
+# on an inherited workspace dependency.
+proof-core = { path = "../../crates/proof-core", version = "0.1.0", default-features = false }
+wasm-bindgen = "0.2"
