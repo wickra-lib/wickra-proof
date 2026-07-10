@@ -29,6 +29,7 @@ node_modules/
 
 # WASM build artifacts
 bindings/wasm/pkg/
+bindings/wasm/pkg-node/
 
 # Go: the C ABI library is staged per-platform by CI, never committed here.
 bindings/go/lib/*/
