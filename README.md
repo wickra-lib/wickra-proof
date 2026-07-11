@@ -62,6 +62,7 @@ languages × 3 OS). Not yet released to any registry — track progress in
 ## Documentation
 
 - [Architecture](ARCHITECTURE.md) — the core, the canonicalization boundary, the binding surface.
+- Deep dives in [`docs/`](docs): [Architecture internals](docs/ARCHITECTURE.md) · [Canonicalization (normative)](docs/CANONICAL.md) · [Proof format](docs/PROOF_FORMAT.md) · [Verifying a foreign proof](docs/VERIFYING.md).
 - [ROADMAP.md](ROADMAP.md) · [BENCHMARKS.md](BENCHMARKS.md) · [THREAT_MODEL.md](THREAT_MODEL.md) · [SECURITY.md](SECURITY.md).
 
 ## Quickstart
