@@ -52,3 +52,8 @@ console.log(version()); // the library version
 | `version`      | —                           | `{ engine_version }`                            |
 
 Errors are reported in-band as `{ "ok": false, "error": "…" }`.
+
+## License
+
+Dual-licensed under either [MIT](https://github.com/wickra-lib/wickra-proof/blob/main/LICENSE-MIT)
+or [Apache-2.0](https://github.com/wickra-lib/wickra-proof/blob/main/LICENSE-APACHE), at your option.
