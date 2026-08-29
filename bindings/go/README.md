@@ -3,7 +3,7 @@
 </p>
 
 [![Built on Wickra](https://img.shields.io/badge/built%20on-wickra-3b82f6)](https://github.com/wickra-lib/wickra)
-[![Go module](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/go.svg)](https://pkg.go.dev/github.com/wickra-lib/wickra-proof-go)
+[![Go module](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/go.svg)](https://pkg.go.dev/github.com/wickra-lib/wickra-proof-go)
 
 # Wickra Proof — Go
 
