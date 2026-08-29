@@ -22,4 +22,7 @@ exclude = [
     "^https?://pypi\\.org/project/wickra-proof",
     "^https?://www\\.npmjs\\.com/package/wickra-proof",
     "^https?://pkg\\.go\\.dev/github\\.com/wickra-lib/wickra-proof-go",
+    "^https?://crates\\.io/crates/wickra-proof-cli",
+    "^https?://www\\.nuget\\.org/packages/Wickra\\.Proof",
+    "^https?://central\\.sonatype\\.com/artifact/org\\.wickra/wickra-proof",
 ]
