@@ -35,7 +35,7 @@ categories = ["finance", "command-line-utilities"]
 # wildcard (cargo-deny bans.wildcards). Its version() is the engine_version pin.
 wickra-backtest-core = { git = "https://github.com/wickra-lib/wickra-backtest", version = "0.1" }
 # Candle + CSV loading for the CLI's data input.
-wickra-data = "0.9"
+wickra-data = "1.0"
 # Workspace-internal crate, referenced by the CLI, bench and bindings.
 proof-core = { version = "0.1.0", path = "crates/proof-core" }
 # Serialization — the data-driven boundary (spec/proof/report/command as JSON).
