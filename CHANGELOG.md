@@ -8,6 +8,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- **A dependency declaration that nothing used and could not have resolved.**
+  The workspace declared `wickra-data = "0.9"` for "the CLI's data input", but
+  no crate referenced it: it is absent from `Cargo.lock` and `wickra_data`
+  appears nowhere in the source. The CLI parses CSV with its own `parse_csv` in
+  `run.rs`.
+
+  The pin was also unreachable. `wickra-data` is published at `1.0.x`, and a
+  `"0.9"` requirement can never resolve to it -- so it would not have produced a
+  Dependabot PR either. A pin that blocks an update raises nothing; it just goes
+  quiet. Removed rather than bumped: wiring the CLI to `wickra-data` is a
+  deliberate change, not a version string.
+
+- **`SECURITY.md` promised support for versions that do not exist.** It offered
+  fixes for "the latest `0.x` minor line" of a repository that has never
+  released. It now says so plainly, and names what happens after `0.1.0`.
+
 - **Maven Central would have rejected the first publish, after the job reported
   success.** Three requirements were missing from `bindings/java/pom.xml`:
 

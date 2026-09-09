@@ -41,8 +41,6 @@ categories = ["finance", "command-line-utilities"]
 # resolved and the build still failed with "expected BacktestReport, found a
 # different BacktestReport". Move this rev and the consumers together.
 wickra-backtest-core = { git = "https://github.com/wickra-lib/wickra-backtest", rev = "d58e357506dbb95211d2313eae7bae93d1f73777", version = "0.1" }
-# Candle + CSV loading for the CLI's data input.
-wickra-data = "0.9"
 # Workspace-internal crate, referenced by the CLI, bench and bindings.
 proof-core = { version = "0.1.0", path = "crates/proof-core" }
 # Serialization — the data-driven boundary (spec/proof/report/command as JSON).
