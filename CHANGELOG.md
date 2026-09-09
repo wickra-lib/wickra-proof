@@ -6,6 +6,29 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- **The engine was pinned by name, not by revision, and the goldens had drifted
+  from it.** `wickra-backtest-core` was taken from a branch with no `rev`, so it
+  tracked whatever upstream had last pushed while `Cargo.lock` held a rev from
+  weeks earlier. Two consequences, both load-bearing:
+
+  A consumer that pins the engine could not use this crate at all. Cargo treats
+  "this git URL, default branch" and "this git URL at rev X" as two different
+  sources, so pinning downstream put **two copies of `wickra-backtest-core`** in
+  one graph -- and two copies share no types. wickra-zk hit exactly that: every
+  symbol resolved and the build still failed with `expected BacktestReport,
+  found a different BacktestReport`. The pin is now an exact rev, and it is
+  meant to move together with its consumers.
+
+  The pin also moved the linked engine from `0.1.0` to `0.1.4`, which the
+  goldens had never seen. They are re-blessed through `golden/_bless.mjs`, and
+  the diff is the reassuring kind: across all three fixtures **every computed
+  value is unchanged** -- equity curve, every metric, every trade, fees, capital,
+  schema version. What changed is `engine_version` and two descriptive fields
+  (`symbol`, `timeframe`) the newer report carries, and therefore both hashes.
+  The engine's arithmetic did not move; the report's shape and version did.
+
 ### Added
 
 - **`hash_value`, `hash_candles` and `hash_report` are public.** The two hashes
