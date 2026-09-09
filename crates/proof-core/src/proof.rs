@@ -1,6 +1,6 @@
 //! `prove` / `verify` and the [`Prover`] command-JSON handle.
 
-use crate::canonical::{blake3_hex, canonicalize};
+use crate::canonical::{canonicalize, hash_value};
 use crate::error::{Error, Result};
 use crate::spec::ProofSpec;
 use serde::{Deserialize, Serialize};
@@ -43,7 +43,7 @@ pub fn prove(spec: &ProofSpec, data: &BTreeMap<String, Vec<Candle>>) -> Result<P
 
     let report = run(&strategy, candles).map_err(|e| Error::Backtest(e.to_string()))?;
     let report_value = serde_json::to_value(&report)?;
-    let report_hash = blake3_hex(&canonicalize(&report_value)?);
+    let report_hash = hash_value(&report_value)?;
 
     let inputs = json!({
         "strategy": spec.strategy,
@@ -51,7 +51,7 @@ pub fn prove(spec: &ProofSpec, data: &BTreeMap<String, Vec<Candle>>) -> Result<P
         "candles": serde_json::to_value(data)?,
         "engine_version": linked,
     });
-    let inputs_hash = blake3_hex(&canonicalize(&inputs)?);
+    let inputs_hash = hash_value(&inputs)?;
 
     Ok(Proof {
         report: report_value,

@@ -8,6 +8,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **`hash_value`, `hash_candles` and `hash_report` are public.** The two hashes
+  `prove` reports were computable only by running `prove`: `canonicalize` was
+  exported but `blake3_hex` was `pub(crate)`, so nothing outside the prover could
+  arrive at the same 64 hex characters. A zkVM guest recomputing the report hash
+  inside a circuit, or a verifier binding a proof to a candle series, had no way
+  in.
+
+  `hash_value(&Value)` is now the crate's only definition of "the hash", and
+  `prove` reports both of its hashes through it rather than repeating the
+  expression — the two cannot drift apart, and a test pins that they do not.
+  `hash_candles(&[Candle])` is the dataset commitment; note it is *not*
+  `inputs_hash`, which covers `{strategy, dataset_ref, candles, engine_version}`
+  as one block. `hash_report(&BacktestReport)` is byte-identical to the
+  `report_hash` `prove` publishes for the same report.
+
+  Five tests cover it: the report hash agrees with `prove`, key order does not
+  change a value's identity, candle order does, an edit of 1e-6 to one close
+  changes the commitment, and the commitment is distinct from `inputs_hash`.
+
 - `proof-core`: the deterministic Proof-of-Backtest core — a serde `ProofSpec`
   (`{strategy, dataset_ref, engine_version?}`) folded through the pinned
   `wickra-backtest` engine into a `Proof` (`{report, inputs_hash, report_hash,

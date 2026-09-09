@@ -1,7 +1,10 @@
 //! Inline tests for proof-core: canonicalization vectors, prove/verify
 //! round-trips, tamper detection, and the engine-version pin.
 
-use crate::{canonicalize, prove, verify, Config, Error, Proof, ProofSpec, Prover};
+use crate::{
+    canonicalize, hash_candles, hash_report, hash_value, prove, verify, Config, Error, Proof,
+    ProofSpec, Prover,
+};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 use wickra_backtest_core::Candle;
@@ -209,4 +212,65 @@ fn command_json_unknown_cmd_returns_error_envelope() {
     let v: Value = serde_json::from_str(&out).unwrap();
     assert_eq!(v["ok"], json!(false));
     assert!(v["error"].as_str().unwrap().contains("nope"));
+}
+
+#[test]
+fn hash_report_equals_the_hash_prove_reports() {
+    // The claim the zkVM guest and every binding rest on: recomputing the report
+    // hash outside the prover lands on the same 64 hex characters the prover
+    // published. `prove` calls `hash_report` rather than repeating it, and this
+    // is what holds that arrangement in place.
+    let report =
+        wickra_backtest_core::run(&serde_json::from_value(strategy()).unwrap(), &candles())
+            .unwrap();
+    let proof = prove(&spec(), &data()).unwrap();
+    assert_eq!(hash_report(&report).unwrap(), proof.report_hash);
+}
+
+#[test]
+fn hash_value_is_the_hash_of_the_canonical_form() {
+    // hash_value is blake3(canonicalize(v)) and nothing else, so two values that
+    // canonicalize alike hash alike -- key order is not part of the identity.
+    let a = json!({ "b": 1, "a": 2 });
+    let b = json!({ "a": 2, "b": 1 });
+    assert_eq!(hash_value(&a).unwrap(), hash_value(&b).unwrap());
+    assert_eq!(hash_value(&a).unwrap().len(), 64);
+}
+
+#[test]
+fn hash_candles_is_deterministic_and_order_sensitive() {
+    let series = candles();
+    assert_eq!(
+        hash_candles(&series).unwrap(),
+        hash_candles(&series).unwrap()
+    );
+
+    // Order is part of the commitment: a reordered series is a different series,
+    // or the dataset commitment would not bind anything.
+    let mut shuffled = series.clone();
+    shuffled.reverse();
+    assert_ne!(
+        hash_candles(&series).unwrap(),
+        hash_candles(&shuffled).unwrap()
+    );
+}
+
+#[test]
+fn hash_candles_differs_from_the_inputs_hash() {
+    // `inputs_hash` covers {strategy, dataset_ref, candles, engine_version}.
+    // The dataset commitment covers the candles alone. Conflating the two would
+    // let a proof over one strategy pass as a commitment to the data.
+    let proof = prove(&spec(), &data()).unwrap();
+    assert_ne!(hash_candles(&candles()).unwrap(), proof.inputs_hash);
+}
+
+#[test]
+fn an_edited_candle_changes_the_commitment() {
+    let series = candles();
+    let mut edited = series.clone();
+    edited[7].close += 1e-6;
+    assert_ne!(
+        hash_candles(&series).unwrap(),
+        hash_candles(&edited).unwrap()
+    );
 }

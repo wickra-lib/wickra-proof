@@ -15,7 +15,7 @@ mod error;
 mod proof;
 mod spec;
 
-pub use canonical::canonicalize;
+pub use canonical::{canonicalize, hash_candles, hash_report, hash_value};
 pub use config::Config;
 pub use error::{Error, Result};
 pub use proof::{prove, verify, Proof, Prover};
