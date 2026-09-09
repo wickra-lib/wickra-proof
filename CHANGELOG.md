@@ -8,6 +8,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- **Maven Central would have rejected the first publish, after the job reported
+  success.** Three requirements were missing from `bindings/java/pom.xml`:
+
+  `<scm>` and `<developers>` are validated by Central and their absence is
+  refused outright (*"SCM URL is not defined"*, *"Developers information is
+  missing"*). The `release` profile did not exist at all, so `mvn -Prelease
+  deploy` matched no profile, warned, and deployed bare -- no sources jar, no
+  javadoc jar, no signatures, and no publishing plugin to send them with.
+  Central requires all four.
+
+  The profile now carries the same four plugins the rest of the organisation
+  publishes with, including `waitUntil=published` so a green job means the
+  artifact is on the repository rather than merely validated. The two licenses
+  are also split into separate `<license>` entries with URLs, since
+  `MIT OR Apache-2.0` in a single `<name>` is an SPDX expression, not a licence
+  Central recognises.
+
+  Verified locally with Maven 3.9.9 and JDK 22: `-Prelease` now activates the
+  profile, and `mvn -Prelease validate` passes.
+
 - **Two high-severity `js-yaml` advisories in the Node binding's lockfile.**
   `js-yaml` 4.3.0 is reachable from the napi tooling and carries
   [GHSA quadratic CPU consumption in `!!omap` resolution][omap] (the
