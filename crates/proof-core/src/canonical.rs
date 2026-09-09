@@ -21,6 +21,7 @@ use crate::error::Result;
 use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fmt::Write as _;
+use wickra_backtest_core::{BacktestReport, Candle};
 
 /// Format a float in a fixed, cross-language-stable, idempotent decimal form:
 /// eight fractional digits, trailing zeros trimmed, and a whole value collapsed
@@ -136,4 +137,48 @@ pub fn canonicalize(value: &Value) -> Result<String> {
 /// The lowercase 64-hex blake3 of a canonical string (no prefix).
 pub(crate) fn blake3_hex(canonical: &str) -> String {
     blake3::hash(canonical.as_bytes()).to_hex().to_string()
+}
+
+/// The canonical hash of any JSON value: the blake3 of its canonical form.
+///
+/// This is the crate's only definition of "the hash". [`prove`](crate::prove)
+/// reports both of its hashes through it, and [`hash_candles`] and
+/// [`hash_report`] are it applied to the two shapes a caller outside the prover
+/// needs. Anything that recomputes a hash independently -- a zkVM guest, a
+/// language binding -- has to agree with this function, or the proof it
+/// produces says nothing.
+///
+/// # Errors
+/// Propagates a canonicalization failure. Canonicalizing a `Value` is total, so
+/// the variant exists for signature uniformity with the rest of the API.
+pub fn hash_value(value: &Value) -> Result<String> {
+    Ok(blake3_hex(&canonicalize(value)?))
+}
+
+/// The canonical hash of a candle series -- the dataset commitment.
+///
+/// Binds a proof to the data it was computed over: the same candles in the same
+/// order produce the same 64-hex string in every language, so a verifier can
+/// tell whether two proofs used the same series without being shown it.
+///
+/// Note what this is *not*: [`prove`](crate::prove) hashes
+/// `{strategy, dataset_ref, candles, engine_version}` as one block into
+/// `inputs_hash`. This hashes the candles alone.
+///
+/// # Errors
+/// Returns [`Error`](crate::Error) if the candles cannot be represented as JSON.
+pub fn hash_candles(candles: &[Candle]) -> Result<String> {
+    hash_value(&serde_json::to_value(candles)?)
+}
+
+/// The canonical hash of a backtest report.
+///
+/// Byte-identical to the `report_hash` that [`prove`](crate::prove) reports for
+/// the same report -- `prove` calls this rather than repeating it, so the two
+/// cannot drift apart.
+///
+/// # Errors
+/// Returns [`Error`](crate::Error) if the report cannot be represented as JSON.
+pub fn hash_report(report: &BacktestReport) -> Result<String> {
+    hash_value(&serde_json::to_value(report)?)
 }
