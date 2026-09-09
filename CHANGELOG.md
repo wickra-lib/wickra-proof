@@ -8,6 +8,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- **Two high-severity `js-yaml` advisories in the Node binding's lockfile.**
+  `js-yaml` 4.3.0 is reachable from the napi tooling and carries
+  [GHSA quadratic CPU consumption in `!!omap` resolution][omap] (the
+  CVE-2026-59870 fix was not backported to 4.x) and a second where
+  `maxTotalMergeKeys` fails to limit CPU use for empty merge sources. Both
+  resolve at 4.3.2, inside the range `package.json` already declares, so this is
+  a lockfile-only change. Development-only: nothing here ships to a consumer.
+
+[omap]: https://github.com/advisories
+
 - **The engine was pinned by name, not by revision, and the goldens had drifted
   from it.** `wickra-backtest-core` was taken from a branch with no `rev`, so it
   tracked whatever upstream had last pushed while `Cargo.lock` held a rev from
