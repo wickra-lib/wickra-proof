@@ -10,13 +10,15 @@ the asset and trust-boundary breakdown.
 
 ## Supported versions
 
-Until the first stable release, only the latest `0.x` minor line receives
-security fixes.
+wickra-proof has not released yet. Until it does there is no supported
+version, and nothing here is running anywhere that a fix could reach.
+
+Once `0.1.0` is out, only the latest release receives security fixes until the
+first stable one.
 
 | Version | Supported |
 |---------|-----------|
-| latest `0.x` | :white_check_mark: |
-| older        | :x:       |
+| none yet | :x: |
 
 ## Reporting a vulnerability
 
