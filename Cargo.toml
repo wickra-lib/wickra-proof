@@ -40,6 +40,13 @@ categories = ["finance", "command-line-utilities"]
 # a BacktestReport or a Candle. wickra-zk hit exactly that: every symbol
 # resolved and the build still failed with "expected BacktestReport, found a
 # different BacktestReport". Move this rev and the consumers together.
+#
+# wickra-data is deliberately absent. It was declared here and used by
+# nothing: the CLI reads its own CSV, and `Candle` comes from the engine, so
+# adding the dependency back would mean two crates defining the same row --
+# and two definitions of one type is the failure this repository exists to
+# rule out. wickra-strategy-ci reached the same conclusion and records it in
+# its own manifest.
 wickra-backtest-core = { git = "https://github.com/wickra-lib/wickra-backtest", rev = "d58e357506dbb95211d2313eae7bae93d1f73777", version = "0.1" }
 # Workspace-internal crate, referenced by the CLI, bench and bindings.
 proof-core = { version = "0.1.0", path = "crates/proof-core" }

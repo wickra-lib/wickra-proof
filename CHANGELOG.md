@@ -17,8 +17,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   The pin was also unreachable. `wickra-data` is published at `1.0.x`, and a
   `"0.9"` requirement can never resolve to it -- so it would not have produced a
   Dependabot PR either. A pin that blocks an update raises nothing; it just goes
-  quiet. Removed rather than bumped: wiring the CLI to `wickra-data` is a
-  deliberate change, not a version string.
+  quiet. Removed rather than bumped, and the manifest now records why: `Candle`
+  comes from the engine, so adding `wickra-data` back would mean two crates
+  defining the same row -- two definitions of one type being the failure this
+  repository exists to rule out. wickra-strategy-ci reached the same conclusion
+  and carries the same note.
 
 - **`SECURITY.md` promised support for versions that do not exist.** It offered
   fixes for "the latest `0.x` minor line" of a repository that has never
