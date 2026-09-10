@@ -12,7 +12,7 @@ assignees: []
 
 ## Affected binding
 
-- [ ] Rust crate (`proof-core`)
+- [ ] Rust crate (`wickra-proof-core`)
 - [ ] Python (`pip install wickra-proof`)
 - [ ] Node.js (`npm install wickra-proof`)
 - [ ] WASM

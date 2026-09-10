@@ -100,7 +100,7 @@ impl Prover {
         Prover
     }
 
-    /// The proof-core crate version.
+    /// The wickra-proof-core crate version.
     #[must_use]
     pub fn version() -> &'static str {
         env!("CARGO_PKG_VERSION")

@@ -6,7 +6,7 @@
 //! deterministic — across an unbounded range of price paths.
 
 use libfuzzer_sys::fuzz_target;
-use proof_core::{prove, verify, Candle, ProofSpec};
+use wickra_proof_core::{prove, verify, Candle, ProofSpec};
 use serde_json::json;
 use std::collections::BTreeMap;
 

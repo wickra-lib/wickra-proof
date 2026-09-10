@@ -4,7 +4,7 @@
 //! a clean `Err`.
 
 use libfuzzer_sys::fuzz_target;
-use proof_core::{Config, ProofSpec};
+use wickra_proof_core::{Config, ProofSpec};
 
 fuzz_target!(|data: &[u8]| {
     let Ok(text) = std::str::from_utf8(data) else {

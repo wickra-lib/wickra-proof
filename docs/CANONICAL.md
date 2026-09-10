@@ -1,10 +1,10 @@
 # Canonicalization (normative)
 
-This page specifies, normatively, how `proof-core` serializes a JSON value
+This page specifies, normatively, how `wickra-proof-core` serializes a JSON value
 before hashing it. Every language binding **must** reproduce these rules exactly:
 the `report_hash` and `inputs_hash` are blake3 over the canonical *string*, so a
 single-byte disagreement is a divergence. The reference implementation is
-[`crates/proof-core/src/canonical.rs`](../crates/proof-core/src/canonical.rs);
+[`crates/wickra-proof-core/src/canonical.rs`](../crates/wickra-proof-core/src/canonical.rs);
 this document is its contract.
 
 ## The rules

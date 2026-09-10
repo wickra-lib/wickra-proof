@@ -1,9 +1,9 @@
 # Architecture (internals)
 
 The top-level [ARCHITECTURE.md](../ARCHITECTURE.md) gives the high-level shape;
-this page covers how `proof-core` actually turns a `(spec, data)` pair into a
+this page covers how `wickra-proof-core` actually turns a `(spec, data)` pair into a
 `Proof`, and where the determinism guarantees live. The whole product is **one
-deterministic core** (`proof-core`) and N thin consumers — the CLI and the ten
+deterministic core** (`wickra-proof-core`) and N thin consumers — the CLI and the ten
 language bindings — each of which only ships a command JSON and reads back a
 response JSON.
 
@@ -54,7 +54,7 @@ so the ten bindings share the exact surface of `wickra-screener` /
 
 ## Where determinism is enforced
 
-- **Canonicalization** (`crates/proof-core/src/canonical.rs`) is the single
+- **Canonicalization** (`crates/wickra-proof-core/src/canonical.rs`) is the single
   load-bearing contract; its rules are normative and specified in
   [CANONICAL.md](CANONICAL.md). Everything that gets hashed passes through it.
 - **No RNG, no time, fixed float operation order** — `prove` is a pure function

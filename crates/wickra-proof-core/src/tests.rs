@@ -1,4 +1,4 @@
-//! Inline tests for proof-core: canonicalization vectors, prove/verify
+//! Inline tests for wickra-proof-core: canonicalization vectors, prove/verify
 //! round-trips, tamper detection, and the engine-version pin.
 
 use crate::{

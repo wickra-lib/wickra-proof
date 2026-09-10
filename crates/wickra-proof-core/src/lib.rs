@@ -1,4 +1,4 @@
-//! # proof-core
+//! # wickra-proof-core
 //!
 //! Proof-of-Backtest: fold a `(spec, data)` pair into a deterministic
 //! `wickra-backtest` report and a canonical blake3 hash that anyone recomputes
@@ -25,7 +25,7 @@ pub use spec::ProofSpec;
 /// pinned backtest engine so consumers do not depend on it directly.
 pub use wickra_backtest_core::Candle;
 
-/// The proof-core crate version.
+/// The wickra-proof-core crate version.
 #[must_use]
 pub fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")

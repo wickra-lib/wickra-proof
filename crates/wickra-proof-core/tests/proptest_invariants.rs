@@ -3,7 +3,7 @@
 
 mod common;
 
-use proof_core::{prove, verify};
+use wickra_proof_core::{prove, verify};
 use proptest::prelude::*;
 use std::collections::BTreeMap;
 

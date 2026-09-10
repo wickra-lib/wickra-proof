@@ -12,7 +12,7 @@
 
 use wasm_bindgen::prelude::*;
 
-use proof_core::Prover as CoreProver;
+use wickra_proof_core::Prover as CoreProver;
 
 /// A stateless prover driven by JSON commands.
 #[wasm_bindgen]

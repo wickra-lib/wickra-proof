@@ -1,6 +1,6 @@
-//! Error type for `proof-core`.
+//! Error type for `wickra-proof-core`.
 
-/// Errors returned by proof-core operations. Every fallible boundary (parsing,
+/// Errors returned by wickra-proof-core operations. Every fallible boundary (parsing,
 /// engine invocation, canonicalization) maps into one of these; no operation
 /// panics on caller-supplied input.
 #[derive(Debug, thiserror::Error)]
@@ -27,7 +27,7 @@ pub enum Error {
     Data(String),
 }
 
-/// Result alias for proof-core.
+/// Result alias for wickra-proof-core.
 pub type Result<T> = core::result::Result<T, Error>;
 
 impl From<serde_json::Error> for Error {

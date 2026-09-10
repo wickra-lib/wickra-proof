@@ -13,7 +13,7 @@
 use napi::Result;
 use napi_derive::napi;
 
-use proof_core::Prover as CoreProver;
+use wickra_proof_core::Prover as CoreProver;
 
 /// Build a napi error from a message.
 fn err(message: impl Into<String>) -> napi::Error {

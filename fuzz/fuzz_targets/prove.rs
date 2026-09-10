@@ -5,7 +5,7 @@
 //! string, when it parses, is always canonical (whitespace-free).
 
 use libfuzzer_sys::fuzz_target;
-use proof_core::Prover;
+use wickra_proof_core::Prover;
 
 fuzz_target!(|data: &[u8]| {
     let Ok(text) = std::str::from_utf8(data) else {

@@ -13,7 +13,7 @@
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 
-use proof_core::Prover;
+use wickra_proof_core::Prover;
 
 /// A stateless prover driven by JSON commands.
 #[pyclass(name = "Prover")]

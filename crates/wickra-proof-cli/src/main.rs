@@ -1,6 +1,6 @@
 //! The `wickra-proof` reference CLI.
 //!
-//! Proves and verifies deterministic backtest reports over `proof-core`:
+//! Proves and verifies deterministic backtest reports over `wickra-proof-core`:
 //! `prove` folds a `(spec, data)` pair into a report and canonical hashes,
 //! `verify` recomputes a proof and compares it against a claim, and
 //! `canonicalize` exposes the canonical JSON form directly.

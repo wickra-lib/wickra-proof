@@ -46,7 +46,7 @@ pub enum Command {
         #[arg(long)]
         file: PathBuf,
     },
-    /// Print the proof-core and pinned engine versions.
+    /// Print the wickra-proof-core and pinned engine versions.
     Version,
 }
 

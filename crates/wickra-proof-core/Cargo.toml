@@ -1,5 +1,5 @@
 [package]
-name = "proof-core"
+name = "wickra-proof-core"
 description = "Deterministic Proof-of-Backtest core: fold a (spec, data) pair into a wickra-backtest report and a canonical blake3 hash reproducible byte-for-byte across ten languages."
 version.workspace = true
 edition.workspace = true

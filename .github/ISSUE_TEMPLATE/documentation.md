@@ -8,7 +8,7 @@ assignees: []
 
 ## Where
 
-<!-- Link or path. e.g. README.md#quickstart, docs/guide/ema.md, rustdoc for `proof_core::prove`. -->
+<!-- Link or path. e.g. README.md#quickstart, docs/guide/ema.md, rustdoc for `wickra_proof_core::prove`. -->
 
 ## What's wrong / missing
 

@@ -1,6 +1,6 @@
 [package]
 name = "wickra-proof-cli"
-description = "Reference command-line prover/verifier over proof-core: fold a (spec, data) pair into a deterministic backtest report and canonical hash, and verify a claimed proof by recomputation."
+description = "Reference command-line prover/verifier over wickra-proof-core: fold a (spec, data) pair into a deterministic backtest report and canonical hash, and verify a claimed proof by recomputation."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -27,6 +27,6 @@ path = "src/main.rs"
 
 [dependencies]
 # The deterministic proof core.
-proof-core.workspace = true
+wickra-proof-core.workspace = true
 serde_json.workspace = true
 clap.workspace = true

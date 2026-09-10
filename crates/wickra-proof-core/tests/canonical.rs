@@ -4,7 +4,7 @@
 //! trailing zeros trimmed (whole values collapsed to integer tokens so no host
 //! language's `1.0`-vs-`1` ambiguity can shift the hash), and no whitespace.
 
-use proof_core::canonicalize;
+use wickra_proof_core::canonicalize;
 use serde_json::json;
 
 #[test]

@@ -144,12 +144,12 @@ jobs:
         uses: taiki-e/install-action@e67fa11c4b9316fa714ddf0abed07a0c3143b95b # v2.87.4
         with:
           tool: cargo-llvm-cov
-      # The moat lives in proof-core: canonicalization + hashing + prove/verify.
+      # The moat lives in wickra-proof-core: canonicalization + hashing + prove/verify.
       # Measure it in isolation so patch coverage tracks the deterministic core.
       - name: Generate coverage (lcov)
         run: >
           cargo llvm-cov
-          -p proof-core
+          -p wickra-proof-core
           --lcov --output-path lcov.info
       - name: Upload to Codecov
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
@@ -536,7 +536,7 @@ jobs:
         run: |
           set -euo pipefail
           checked=0
-          for crate in proof-core wickra-proof-cli; do
+          for crate in wickra-proof-core wickra-proof-cli; do
             if curl -fsS -A "wickra-ci" "https://crates.io/api/v1/crates/$crate" >/dev/null 2>&1; then
               echo "::group::cargo semver-checks $crate"
               cargo semver-checks check-release -p "$crate"

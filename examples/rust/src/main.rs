@@ -7,7 +7,7 @@
 
 use std::collections::BTreeMap;
 
-use proof_core::{prove, verify, Candle, ProofSpec};
+use wickra_proof_core::{prove, verify, Candle, ProofSpec};
 
 const SPEC: &str = r#"{
     "strategy": {
@@ -56,7 +56,7 @@ fn main() {
 
     let proof = prove(&spec, &data).expect("prove");
 
-    println!("wickra-proof {}", proof_core::version());
+    println!("wickra-proof {}", wickra_proof_core::version());
     println!("report_hash: {}", proof.report_hash);
 
     assert!(

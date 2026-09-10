@@ -5,7 +5,7 @@
 //! value reaching `canonicalize` is finite and its output stays finite too.
 
 use libfuzzer_sys::fuzz_target;
-use proof_core::canonicalize;
+use wickra_proof_core::canonicalize;
 use serde_json::Value;
 
 fuzz_target!(|data: &[u8]| {

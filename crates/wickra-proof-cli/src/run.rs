@@ -1,7 +1,7 @@
 //! Load inputs, run the requested command, and render the output.
 
 use crate::args::{Cli, Command, Format};
-use proof_core::{canonicalize, prove, verify, Candle, Config, Proof, Prover};
+use wickra_proof_core::{canonicalize, prove, verify, Candle, Config, Proof, Prover};
 use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fs;
@@ -89,7 +89,7 @@ fn read(path: &Path) -> Result<String, String> {
 }
 
 /// Read and parse a spec file, choosing JSON or TOML by extension.
-fn load_spec(path: &Path) -> Result<proof_core::ProofSpec, String> {
+fn load_spec(path: &Path) -> Result<wickra_proof_core::ProofSpec, String> {
     let content = read(path)?;
     let is_toml = path
         .extension()

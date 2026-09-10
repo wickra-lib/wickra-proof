@@ -7,7 +7,7 @@
 //! the hashing surface's own cost independently of the backtest.
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
-use proof_core::{canonicalize, prove, Candle, ProofSpec};
+use wickra_proof_core::{canonicalize, prove, Candle, ProofSpec};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 
