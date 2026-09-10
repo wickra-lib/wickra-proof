@@ -733,21 +733,8 @@ name = "proof-bench"
 version = "0.1.0"
 dependencies = [
  "criterion",
- "proof-core",
  "serde_json",
-]
-
-[[package]]
-name = "proof-core"
-version = "0.1.0"
-dependencies = [
- "blake3",
- "proptest",
- "serde",
- "serde_json",
- "thiserror",
- "toml",
- "wickra-backtest-core",
+ "wickra-proof-core",
 ]
 
 [[package]]
@@ -1340,7 +1327,7 @@ dependencies = [
 name = "wickra-proof-c"
 version = "0.1.0"
 dependencies = [
- "proof-core",
+ "wickra-proof-core",
 ]
 
 [[package]]
@@ -1348,16 +1335,29 @@ name = "wickra-proof-cli"
 version = "0.1.0"
 dependencies = [
  "clap",
- "proof-core",
  "serde_json",
+ "wickra-proof-core",
+]
+
+[[package]]
+name = "wickra-proof-core"
+version = "0.1.0"
+dependencies = [
+ "blake3",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "toml",
+ "wickra-backtest-core",
 ]
 
 [[package]]
 name = "wickra-proof-example"
 version = "0.1.0"
 dependencies = [
- "proof-core",
  "serde_json",
+ "wickra-proof-core",
 ]
 
 [[package]]
@@ -1367,23 +1367,23 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
- "proof-core",
+ "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-python"
 version = "0.1.0"
 dependencies = [
- "proof-core",
  "pyo3",
+ "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-wasm"
 version = "0.1.0"
 dependencies = [
- "proof-core",
  "wasm-bindgen",
+ "wickra-proof-core",
 ]
 
 [[package]]

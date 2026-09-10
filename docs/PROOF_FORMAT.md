@@ -2,8 +2,8 @@
 
 This page specifies the two data types a caller sees — `ProofSpec` (the input)
 and `Proof` (the output) — and the command envelope every binding speaks. The
-reference types are [`crates/proof-core/src/spec.rs`](../crates/proof-core/src/spec.rs)
-and [`crates/proof-core/src/proof.rs`](../crates/proof-core/src/proof.rs).
+reference types are [`crates/wickra-proof-core/src/spec.rs`](../crates/wickra-proof-core/src/spec.rs)
+and [`crates/wickra-proof-core/src/proof.rs`](../crates/wickra-proof-core/src/proof.rs).
 
 ## `ProofSpec` (input)
 

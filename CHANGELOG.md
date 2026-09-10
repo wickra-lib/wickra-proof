@@ -6,6 +6,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- **The core crate is renamed `proof-core` -> `wickra-proof-core`.** The old
+  name is taken on crates.io: `proof-core` 1.0.0 was published on 2026-09-09 by
+  an unrelated project, and this repository has never released, so the name went
+  from under it. `cargo publish -p proof-core` would have failed with a
+  permission error on the first release -- after the tag, and after the other
+  registries had already accepted their half.
+
+  It was also the last core crate in the organisation without the `wickra-`
+  prefix. wickra-strategy-ci renamed `strategy-ci-core` for the same reason and
+  recorded why; this is the same move, forced sooner.
+
+  **Nothing a user types changes.** The CLI binary keeps the name
+  `wickra-proof`, and the Python, npm, NuGet, Maven and R package names never
+  carried the crate name. The Rust library is now
+  `cargo add wickra-proof-core`, and `use proof_core::` becomes
+  `use wickra_proof_core::`.
+
 ### Fixed
 
 - **A dependency declaration that nothing used and could not have resolved.**
@@ -99,7 +118,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   change a value's identity, candle order does, an edit of 1e-6 to one close
   changes the commitment, and the commitment is distinct from `inputs_hash`.
 
-- `proof-core`: the deterministic Proof-of-Backtest core — a serde `ProofSpec`
+- `wickra-proof-core`: the deterministic Proof-of-Backtest core — a serde `ProofSpec`
   (`{strategy, dataset_ref, engine_version?}`) folded through the pinned
   `wickra-backtest` engine into a `Proof` (`{report, inputs_hash, report_hash,
   engine_version}`). Both hashes are blake3 over a canonical JSON serialization

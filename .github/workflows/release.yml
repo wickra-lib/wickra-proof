@@ -119,7 +119,7 @@ jobs:
           echo "every workflow that ran on this commit is green"
 
   # --------------------------------------------------------------------------
-  # crates.io: proof-core then the wickra-proof-cli crate (wickra-proof binary)
+  # crates.io: wickra-proof-core then the wickra-proof-cli crate (wickra-proof binary)
   # --------------------------------------------------------------------------
   cargo-publish:
     name: Publish to crates.io
@@ -136,9 +136,9 @@ jobs:
 
       # Idempotent publishing: if the version is already on crates.io we treat
       # that as success so re-runs of the workflow do not fail.
-      - name: Publish proof-core (idempotent)
+      - name: Publish wickra-proof-core (idempotent)
         run: |
-          out=$(cargo publish -p proof-core --token "$CARGO_REGISTRY_TOKEN" 2>&1) && echo "$out" \
+          out=$(cargo publish -p wickra-proof-core --token "$CARGO_REGISTRY_TOKEN" 2>&1) && echo "$out" \
             || (echo "$out" | grep -q "already uploaded\|already exists" && echo "skip: already published" \
                 || (echo "$out"; exit 1))
         env:
@@ -158,7 +158,7 @@ jobs:
       # Produce .crate files for the GitHub Release attachments.
       - name: Build .crate files for release attachment
         run: |
-          cargo package -p proof-core
+          cargo package -p wickra-proof-core
           cargo package -p wickra-proof-cli
 
       - name: Upload .crate files
@@ -177,7 +177,7 @@ jobs:
         run: |
           cargo cyclonedx --format json --top-level
           mkdir -p sboms
-          cp crates/proof-core/proof-core.cdx.json sboms/
+          cp crates/wickra-proof-core/wickra-proof-core.cdx.json sboms/
           cp crates/wickra-proof-cli/wickra-proof-cli.cdx.json sboms/
           ls -lh sboms/
 
@@ -216,7 +216,7 @@ jobs:
       - name: Sync root README into bindings/python so it ships with the wheel
         shell: bash
         run: cp README.md bindings/python/README.md
-      # The Python binding depends only on proof-core (pure canonicalization +
+      # The Python binding depends only on wickra-proof-core (pure canonicalization +
       # hashing, no native networking), so the manylinux/musllinux containers
       # build the wheel with no extra system dependencies.
       - uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1.51.0

@@ -9,11 +9,11 @@ use serde_json::Value;
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct ProofSpec {
     /// The embedded wickra-backtest `StrategySpec`, kept as raw JSON so
-    /// proof-core stays decoupled from backtest struct internals across the FFI
+    /// wickra-proof-core stays decoupled from backtest struct internals across the FFI
     /// boundary.
     pub strategy: Value,
     /// Opaque, caller-chosen identifier of the dataset (e.g. content hash, URL,
-    /// git ref). It is hashed into `inputs_hash` but proof-core does NOT fetch
+    /// git ref). It is hashed into `inputs_hash` but wickra-proof-core does NOT fetch
     /// it — data is passed explicitly.
     pub dataset_ref: String,
     /// Expected backtest engine version. If present and it differs from the

@@ -1,11 +1,11 @@
-//! Shared fixtures for the proof-core integration tests: a valid embedded
+//! Shared fixtures for the wickra-proof-core integration tests: a valid embedded
 //! strategy and a small deterministic candle universe keyed by symbol.
 //!
 //! Each integration-test binary pulls this module in and uses a different subset
 //! of these helpers, so unused items in any single binary are expected.
 #![allow(dead_code)]
 
-use proof_core::{Candle, ProofSpec};
+use wickra_proof_core::{Candle, ProofSpec};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 

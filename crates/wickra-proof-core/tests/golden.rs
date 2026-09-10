@@ -4,7 +4,7 @@
 //! of the cross-language determinism guarantee; the eight bindings assert the
 //! same bytes.
 
-use proof_core::{verify, Candle, Proof, Prover};
+use wickra_proof_core::{verify, Candle, Proof, Prover};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 use std::fs;
@@ -80,7 +80,7 @@ fn golden_proofs_are_byte_identical() {
 
         // The blessed proof also verifies against the same (spec, data).
         let proof: Proof = serde_json::from_str(&expected).unwrap();
-        let spec: proof_core::ProofSpec = serde_json::from_value(
+        let spec: wickra_proof_core::ProofSpec = serde_json::from_value(
             serde_json::from_str::<Value>(&fs::read_to_string(&spec_path).unwrap()).unwrap(),
         )
         .unwrap();

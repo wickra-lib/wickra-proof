@@ -26,7 +26,7 @@ use core::ffi::{c_char, CStr};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::ptr;
 
-use proof_core::Prover;
+use wickra_proof_core::Prover;
 
 /// A required pointer argument (`handle` or `cmd_json`) was null.
 pub const WICKRA_PROOF_ERR_NULL: i32 = -1;

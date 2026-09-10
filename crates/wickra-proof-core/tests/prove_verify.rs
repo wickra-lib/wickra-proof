@@ -4,7 +4,7 @@
 
 mod common;
 
-use proof_core::{prove, verify, Error, Proof};
+use wickra_proof_core::{prove, verify, Error, Proof};
 
 #[test]
 fn a_genuine_proof_verifies() {
@@ -84,8 +84,8 @@ fn engine_version_mismatch_is_an_error() {
 #[test]
 fn the_linked_engine_version_is_accepted() {
     let mut spec = common::sample_spec();
-    spec.engine_version = Some(proof_core::version().to_string());
-    // proof_core::version() is the proof crate version, not the engine version;
+    spec.engine_version = Some(wickra_proof_core::version().to_string());
+    // wickra_proof_core::version() is the proof crate version, not the engine version;
     // pin the actual engine version taken from a genuine proof instead.
     let linked = prove(&common::sample_spec(), &common::sample_data())
         .unwrap()

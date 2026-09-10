@@ -4,7 +4,7 @@
 
 mod common;
 
-use proof_core::{canonicalize, prove, ProofSpec};
+use wickra_proof_core::{canonicalize, prove, ProofSpec};
 
 #[test]
 fn proof_spec_json_round_trips() {
@@ -63,7 +63,7 @@ trailing_stop_pct = 5.0
 fn proof_json_round_trips() {
     let proof = prove(&common::sample_spec(), &common::sample_data()).unwrap();
     let json = serde_json::to_string(&proof).unwrap();
-    let back: proof_core::Proof = serde_json::from_str(&json).unwrap();
+    let back: wickra_proof_core::Proof = serde_json::from_str(&json).unwrap();
     assert_eq!(proof.report_hash, back.report_hash);
     assert_eq!(proof.inputs_hash, back.inputs_hash);
     assert_eq!(proof.engine_version, back.engine_version);

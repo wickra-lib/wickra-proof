@@ -25,7 +25,7 @@ faith.
 
 ## Why it is language-independent
 
-Every binding runs the *same* `proof-core` over the *same* canonicalization
+Every binding runs the *same* `wickra-proof-core` over the *same* canonicalization
 ([CANONICAL.md](CANONICAL.md)), so the fresh `report_hash` is byte-identical
 regardless of language. A proof minted in Python verifies in Go; a proof minted
 in Rust verifies in the browser over WASM. The cross-language golden tests assert

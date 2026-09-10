@@ -6,7 +6,7 @@ same versions, same layout, same tests/fuzz/golden/examples/bindings/CI.
 
 ## 0.1.0 (first release)
 
-- `proof-core`: `ProofSpec`, `prove`, `verify`, `canonicalize`, `command_json`.
+- `wickra-proof-core`: `ProofSpec`, `prove`, `verify`, `canonicalize`, `command_json`.
 - Pinned `wickra-backtest` engine dependency (`engine_version` embedded).
 - Reference CLI: `prove` and `verify`.
 - Ten language bindings over the C ABI hub, all recomputing one `report_hash`.

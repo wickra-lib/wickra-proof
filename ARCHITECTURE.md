@@ -9,7 +9,7 @@ a single JSON string boundary. It mirrors the structure of `wickra-backtest`
 
 ```
                  ┌─────────────────────────────────────────┐
-   (spec, data)  │  proof-core                              │
+   (spec, data)  │  wickra-proof-core                              │
    ────────────▶ │   spec.rs     ProofSpec { strategy, ... }│
                  │   proof.rs    prove() / verify()          │
                  │   canonical.rs canonicalize() + blake3    │──▶ (report, report_hash)

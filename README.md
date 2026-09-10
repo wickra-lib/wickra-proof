@@ -62,7 +62,7 @@ fund transparency, reproducible research and higher-order tools
 ## Status
 
 **Pre-release — functionally complete, CI-verified, not yet published.** The core
-([`proof-core`](crates/proof-core)), the CLI, all ten language bindings, the
+([`wickra-proof-core`](crates/wickra-proof-core)), the CLI, all ten language bindings, the
 byte-exact golden corpus, property + fuzz tests, benchmarks and one runnable
 example per language are in place and green across the full CI matrix (10
 languages × 3 OS). Not yet released to any registry — track progress in
@@ -114,7 +114,7 @@ never has to trust the prover: it recomputes and compares.
 
 The hash is only as trustworthy as the serialization it runs over, so
 canonicalization is the load-bearing contract every binding reproduces exactly
-(see [`crates/proof-core/src/canonical.rs`](crates/proof-core/src/canonical.rs)):
+(see [`crates/wickra-proof-core/src/canonical.rs`](crates/wickra-proof-core/src/canonical.rs)):
 
 1. Object keys sorted ascending by Unicode code point.
 2. No structural whitespace.
@@ -154,7 +154,7 @@ per-binding quickstarts are in each `bindings/<lang>/README.md`.
 ## Project layout
 
 ```
-crates/proof-core          the library: canonicalize + prove + verify
+crates/wickra-proof-core          the library: canonicalize + prove + verify
 crates/wickra-proof-cli    reference CLI (prove / verify), binary `wickra-proof`
 crates/proof-bench         Criterion benchmarks
 bindings/{c,python,node,wasm,go,csharp,java,r}   ten-language surface
