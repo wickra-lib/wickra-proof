@@ -53,3 +53,10 @@ bindings/r/..Rcheck/
 .env.*
 *.key
 secrets/
+# Staged into src/ by configure at build time; never committed.
+bindings/r/src/wickra_proof.h
+bindings/r/src/libwickra_proof*
+bindings/r/src/wickra_proof_abi.def
+bindings/r/src/wickra-proof-c*
+bindings/r/src/Makevars
+bindings/r/src/symbols.rds
