@@ -3,9 +3,9 @@
 
 mod common;
 
-use wickra_proof_core::{prove, verify};
 use proptest::prelude::*;
 use std::collections::BTreeMap;
+use wickra_proof_core::{prove, verify};
 
 proptest! {
     #![proptest_config(ProptestConfig::with_cases(64))]

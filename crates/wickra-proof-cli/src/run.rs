@@ -1,11 +1,11 @@
 //! Load inputs, run the requested command, and render the output.
 
 use crate::args::{Cli, Command, Format};
-use wickra_proof_core::{canonicalize, prove, verify, Candle, Config, Proof, Prover};
 use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
+use wickra_proof_core::{canonicalize, prove, verify, Candle, Config, Proof, Prover};
 
 /// The rendered output plus whether the process should exit successfully.
 pub struct Output {

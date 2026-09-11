@@ -8,6 +8,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- **The engine pin moves from a git rev to the published release.**
+  `wickra-backtest-core` is `=0.1.4` from crates.io, the same source as the
+  pinned rev `d58e357` minus one Java pom. A git rev is the trap the manifest
+  comment itself described: cargo treats "this git URL, default branch" and
+  "this git URL at rev X" as two sources, and a consumer that pins the engine
+  differently carries two copies that share no `BacktestReport` -- wickra-zk
+  hit it against this crate, wickra-verify's fuzz manifest against its own
+  workspace. A registry version cannot split that way, and `cargo publish`
+  needs one anyway.
+
 - **The core crate is renamed `proof-core` -> `wickra-proof-core`.** The old
   name is taken on crates.io: `proof-core` 1.0.0 was published on 2026-09-09 by
   an unrelated project, and this repository has never released, so the name went
