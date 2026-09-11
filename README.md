@@ -45,6 +45,35 @@ fund transparency, reproducible research and higher-order tools
 ([`wickra-verify`](https://github.com/wickra-lib/wickra-verify),
 [`wickra-zk`](https://github.com/wickra-lib/wickra-zk)).
 
+```rust
+use wickra_proof_core::{prove, verify, ProofSpec};
+
+// A ProofSpec is the strategy and a dataset reference; the candles are
+// supplied beside it. `prove` folds the two into a report and its hashes.
+let spec = ProofSpec::from_json(spec_json)?;
+let proof = prove(&spec, &candles_by_symbol)?;
+println!("report_hash: {}", proof.report_hash);
+
+// Anyone with the same spec and data recomputes the same bytes, in any of
+// the ten languages -- and a proof that does not recompute is not valid.
+assert!(verify(&proof, &spec, &candles_by_symbol)?);
+```
+
+The same two calls from the command line, over the spec and candles shipped
+in `examples/data`:
+
+```bash
+cargo run -p wickra-proof-cli -- prove \
+  --spec examples/data/config.json \
+  --data examples/data/candles/AAA.csv \
+  --format json
+
+cargo run -p wickra-proof-cli -- verify \
+  --proof examples/data/config.proof.json \
+  --spec examples/data/config.json \
+  --data examples/data/candles/AAA.csv
+```
+
 ## Determinism is the product
 
 - **Canonical JSON before hashing:** keys sorted at every depth (`BTreeMap`),
@@ -76,26 +105,11 @@ languages × 3 OS). Not yet released to any registry — track progress in
 
 ## Quickstart
 
-```bash
-# Prove: compute the report + hash for a (spec, data) pair.
-# --spec takes a config file ({ "spec": <ProofSpec> }); --data a CSV or a
-# directory of <SYMBOL>.csv files.
-cargo run -p wickra-proof-cli -- prove \
-  --spec examples/data/config.json \
-  --data examples/data/candles/AAA.csv \
-  --format json
-
-# Verify: recompute and compare against a claimed proof.
-cargo run -p wickra-proof-cli -- verify \
-  --proof examples/data/config.proof.json \
-  --spec examples/data/config.json \
-  --data examples/data/candles/AAA.csv
-```
-
-`prove` prints the `BacktestReport` and its `report_hash`; `verify` re-runs the
-proof against the same spec and data and prints `valid` only if the recomputed
-hash matches the claimed one. Tamper with a single field of the proof and
-verification fails.
+`--spec` takes a config file (`{ "spec": <ProofSpec> }`); `--data` a CSV or a
+directory of `<SYMBOL>.csv` files. `prove` prints the `BacktestReport` and its
+`report_hash`; `verify` re-runs the proof against the same spec and data and
+prints `valid` only if the recomputed hash matches the claimed one. Tamper
+with a single field of the proof and verification fails.
 
 ## ProofSpec and Proof
 
@@ -200,12 +214,45 @@ Run the suites with the commands in
 
 - **Rust** — workspace MSRV 1.86 (the Node binding needs 1.88).
 - Optional per binding: Python 3.9+, Node.js 22+, a C toolchain + CMake, .NET 8
-  SDK, JDK 22+, Go 1.21+, R 4.x.
+  SDK, JDK 22+, Go 1.23+, R 4.x.
 
 ## Benchmarks
 
 Criterion benchmarks live in [`crates/proof-bench`](crates/proof-bench) and run
 nightly in CI; see [BENCHMARKS.md](BENCHMARKS.md).
+
+## Ecosystem
+
+Part of the [Wickra](https://github.com/wickra-lib/wickra) family — each one a
+data-driven core with a CLI and the same ten-language binding surface:
+
+- [**wickra**](https://github.com/wickra-lib/wickra) — main library (Rust core + Python / Node.js / WASM bindings + a C ABI for C / C++ / C# / Go / Java / R)
+- [**wickra-playground**](https://github.com/wickra-lib/wickra-playground) — a polyglot strategy playground: one StrategySpec live side by side in Python, Rust, JS and Go, entirely in the browser
+- [**wickra-exchange**](https://github.com/wickra-lib/wickra-exchange) — unified market-data + execution across ten crypto exchanges
+- [**wickra-backtest**](https://github.com/wickra-lib/wickra-backtest) — event-driven backtester over the Wickra core
+- [**wickra-terminal**](https://github.com/wickra-lib/wickra-terminal) — the trading terminal: a TUI and a browser renderer over the stack
+- [**wickra-screener**](https://github.com/wickra-lib/wickra-screener) — parallel multi-symbol screening over 514 streaming indicators
+- [**wickra-radar**](https://github.com/wickra-lib/wickra-radar) — perp-universe alert radar: OI delta, funding flip, book imbalance, liquidation clusters, OI/price divergence
+- [**wickra-copilot**](https://github.com/wickra-lib/wickra-copilot) — local market copilot grounded in real order-book, liquidation and funding microstructure
+- [**wickra-shazam**](https://github.com/wickra-lib/wickra-shazam) — match an asset's current microstructure fingerprint against its entire history
+- [**wickra-benchmark**](https://github.com/wickra-lib/wickra-benchmark) — reproducible, golden-verified benchmark suite — recompute any (strategy, dataset, report) in ten languages and confirm it byte-for-byte
+- [**wickra-strategy-ci**](https://github.com/wickra-lib/wickra-strategy-ci) — Jest for trading strategies: golden-pin the report, catch regressions in CI, property-test against fuzzed data
+- [**wickra-verify**](https://github.com/wickra-lib/wickra-verify) — confirm or refute a claimed backtest report against its strategy and data, in ten languages
+- [**wickra-proof**](https://github.com/wickra-lib/wickra-proof) — Proof-of-Backtest: deterministic (spec, data) → report + blake3 hash, recomputable byte-for-byte in ten languages
+- [**wickra-zk**](https://github.com/wickra-lib/wickra-zk) — prove a backtest zero-knowledge — on-chain-verifiable performance without revealing the data or the strategy
+- [**wickra-impact**](https://github.com/wickra-lib/wickra-impact) — the backtester that knows you would have moved the market: agent-based fills on the real historical L2 order book
+- [**wickra-darwin**](https://github.com/wickra-lib/wickra-darwin) — evolutionary strategy search at millions of backtests per second, mutating and crossing JSON specs across the 514-indicator space
+- [**wickra-gym**](https://github.com/wickra-lib/wickra-gym) — a Gymnasium-compatible, microstructure-aware backtest environment with O(1) steps for deterministic RL rollouts
+- [**wickra-feature-store**](https://github.com/wickra-lib/wickra-feature-store) — OHLCV and microstructure streams into ML-ready feature matrices over 514 O(1) streaming indicators
+- [**wickra-genome**](https://github.com/wickra-lib/wickra-genome) — a vector database of the whole market: every asset a 514-dim live vector, for similarity search, clustering and anomaly detection
+- [**wickra-timemachine**](https://github.com/wickra-lib/wickra-timemachine) — scrub the whole market like a video — every symbol, full order book, rewound to any moment via deterministic re-fold
+- [**wickra-synth**](https://github.com/wickra-lib/wickra-synth) — deterministic synthetic market microstructure: OHLCV, order book, trades and funding from a single seed
+- [**wickra-compile**](https://github.com/wickra-lib/wickra-compile) — compile a strategy spec into a standalone deployable: a WASM module, a self-contained binary, or a `no_std` artifact
+- [**wickra-embed**](https://github.com/wickra-lib/wickra-embed) — allocation-free, `no_std` streaming indicators for bare-metal and HFT, byte-for-byte identical to the core
+- [**wickra-pico**](https://github.com/wickra-lib/wickra-pico) — the O(1) indicator core running bare-metal on a $5 Raspberry Pi Pico — the LED blinks on the EMA cross
+
+Docs at [docs.wickra.org](https://docs.wickra.org); the marketing site and
+in-browser demo at [wickra.org](https://wickra.org).
 
 ## Contributing
 
