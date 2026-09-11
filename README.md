@@ -214,7 +214,7 @@ Run the suites with the commands in
 
 - **Rust** — workspace MSRV 1.86 (the Node binding needs 1.88).
 - Optional per binding: Python 3.9+, Node.js 22+, a C toolchain + CMake, .NET 8
-  SDK, JDK 22+, Go 1.23+, R 4.x.
+  SDK, JDK 22+, Go 1.23+, R ≥ 2.10.
 
 ## Benchmarks
 
