@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>wickra-proof WASM — prove</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #1d1d1d; }
+    h1 { margin-bottom: .25rem; }
+    .meta { color: #666; margin-top: 0; }
+    code { background: #f4f4f4; padding: .1rem .25rem; border-radius: .2rem; font-size: .9em; }
+    pre { background: #f6f8fa; padding: .75rem; border-radius: .3rem; overflow-x: auto; }
+    button { padding: .5rem 1rem; }
+    #status { margin-top: 1rem; color: #666; }
+    #hash { font-family: ui-monospace, monospace; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>wickra-proof WASM — prove</h1>
+  <p class="meta">
+    The same example every other language carries: prove a (spec, data) pair,
+    read the <code>report_hash</code>, then verify the proof against the same
+    inputs. The spec and candles on this page are the bytes
+    <code>examples/node/prove.js</code> sends, and the hash is the one every
+    binding prints — the WASM build runs the identical core.
+  </p>
+
+  <p><button id="go" disabled>Prove and verify</button></p>
+  <p id="status">Loading WASM module…</p>
+
+  <p id="hash" hidden></p>
+  <pre id="raw" hidden></pre>
+
+  <script type="module">
+    import init, { Prover, version }
+      from "../../bindings/wasm/pkg/wickra_proof_wasm.js";
+
+    const SPEC = {
+      strategy: {
+        symbol: "AAA",
+        timeframe: "1h",
+        indicators: {
+          ema_fast: { type: "Ema", params: [3] },
+          ema_slow: { type: "Ema", params: [8] },
+        },
+        entry: { cross_above: ["ema_fast", "ema_slow"] },
+        exit: { cross_below: ["ema_fast", "ema_slow"] },
+        sizing: { type: "fixed_fraction", fraction: 0.95 },
+        costs: { taker_bps: 5, slippage: { type: "fixed_bps", bps: 2 } },
+        risk: {},
+      },
+      dataset_ref: "example/AAA/1h",
+    };
+
+    // A short V-shaped price path so the fast/slow EMA cross fires at least once.
+    const CLOSES = [120, 118, 116, 114, 112, 110, 108, 112, 116, 120, 124, 128];
+    const candles = () =>
+      CLOSES.map((close, i) => {
+        const open = i === 0 ? close : CLOSES[i - 1];
+        return {
+          time: 1_700_000_000 + i * 3600,
+          open,
+          high: Math.max(open, close) + 1,
+          low: Math.min(open, close) - 1,
+          close,
+          volume: 1000,
+        };
+      });
+
+    const status = document.getElementById("status");
+    const go = document.getElementById("go");
+
+    function run() {
+      const prover = new Prover();
+      const data = { AAA: candles() };
+
+      const proof = JSON.parse(prover.command(JSON.stringify({ cmd: "prove", spec: SPEC, data })));
+      const verdict = JSON.parse(
+        prover.command(JSON.stringify({ cmd: "verify", proof, spec: SPEC, data })),
+      );
+
+      const hash = document.getElementById("hash");
+      hash.textContent = `report_hash: ${proof.report_hash}`;
+      hash.hidden = false;
+
+      const raw = document.getElementById("raw");
+      raw.textContent = JSON.stringify(proof, null, 2);
+      raw.hidden = false;
+
+      status.textContent = verdict.ok && verdict.valid
+        ? `verify: valid — wickra-proof ${version()}.`
+        : `verify: NOT valid — ${JSON.stringify(verdict)}`;
+    }
+
+    await init();
+    status.textContent = `Module ready — wickra-proof ${version()}.`;
+    go.disabled = false;
+    go.addEventListener("click", () => {
+      try {
+        run();
+      } catch (err) {
+        status.textContent = `Error: ${err}`;
+      }
+    });
+  </script>
+</body>
+</html>

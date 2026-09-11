@@ -60,3 +60,7 @@ bindings/r/src/wickra_proof_abi.def
 bindings/r/src/wickra-proof-c*
 bindings/r/src/Makevars
 bindings/r/src/symbols.rds
+
+# Example build output. The Java example is compiled to a directory beside it by
+# the command in its own header comment, and by the `examples` CI job.
+examples/java/out/
