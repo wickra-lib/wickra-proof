@@ -5,9 +5,9 @@
 //! of these helpers, so unused items in any single binary are expected.
 #![allow(dead_code)]
 
-use wickra_proof_core::{Candle, ProofSpec};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
+use wickra_proof_core::{Candle, ProofSpec};
 
 /// The symbol the sample strategy trades.
 pub const SYMBOL: &str = "TEST";

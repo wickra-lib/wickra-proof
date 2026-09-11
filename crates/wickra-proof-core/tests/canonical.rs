@@ -4,8 +4,8 @@
 //! trailing zeros trimmed (whole values collapsed to integer tokens so no host
 //! language's `1.0`-vs-`1` ambiguity can shift the hash), and no whitespace.
 
-use wickra_proof_core::canonicalize;
 use serde_json::json;
+use wickra_proof_core::canonicalize;
 
 #[test]
 fn keys_are_sorted_at_every_depth() {

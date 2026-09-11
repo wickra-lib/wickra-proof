@@ -4,11 +4,11 @@
 //! of the cross-language determinism guarantee; the eight bindings assert the
 //! same bytes.
 
-use wickra_proof_core::{verify, Candle, Proof, Prover};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
+use wickra_proof_core::{verify, Candle, Proof, Prover};
 
 fn golden_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../../golden")
