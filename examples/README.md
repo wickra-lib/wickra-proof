@@ -20,6 +20,7 @@ verifies in any other.
 | .NET | [`csharp/Prove/`](csharp/Prove/) | `dotnet run --project examples/csharp/Prove` |
 | Java | [`java/Prove.java`](java/Prove.java) | see the header comment |
 | R | [`r/prove.R`](r/prove.R) | `Rscript examples/r/prove.R` |
+| WASM | [`wasm/`](wasm/) | static browser demo — see [`wasm/README.md`](wasm/README.md) |
 
 The native bindings (Python, Node.js) load their own compiled library. The
 bindings that go through the C ABI (Go, .NET, Java, R, and the C/C++ example
@@ -61,7 +62,7 @@ Every example prints the version, the report hash, and the verify verdict:
 
 ```text
 wickra-proof 0.1.0
-report_hash: 12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f
+report_hash: b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d
 verify: valid
 ```
 
@@ -69,11 +70,11 @@ The hash is identical in every language — that is the guarantee:
 
 | Language | `report_hash` |
 |----------|---------------|
-| Rust | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| Python | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| Node.js | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| C / C++ | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| Go | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| .NET | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| Java | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
-| R | `12c288bb2fed3d3db887a2b09f375db9b7c84bc5f0fb2195e3af8900be2b334f` |
+| Rust | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| Python | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| Node.js | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| C / C++ | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| Go | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| .NET | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| Java | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
+| R | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
