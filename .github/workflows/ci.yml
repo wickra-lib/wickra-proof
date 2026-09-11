@@ -458,7 +458,8 @@ jobs:
           export WKPROOF_INC="${WKPROOF_INC//\\//}"
           export WKPROOF_LIB="${WKPROOF_LIB//\\//}"
           if command -v cygpath >/dev/null 2>&1; then
-            export PATH="$(cygpath -u "$WKPROOF_LIB"):$PATH"
+            WKPROOF_LIB_UNIX=$(cygpath -u "$WKPROOF_LIB")
+            export PATH="$WKPROOF_LIB_UNIX:$PATH"
           else
             export LD_LIBRARY_PATH="$WKPROOF_LIB:$LD_LIBRARY_PATH"
             export DYLD_LIBRARY_PATH="$WKPROOF_LIB:$DYLD_LIBRARY_PATH"
