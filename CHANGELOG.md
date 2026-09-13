@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-13
+
 ### Changed
 
 - **The Examples job runs every example and checks what it prints.** It used
@@ -174,4 +176,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (`deny.toml`, `osv-scanner.toml`, `lychee.toml`), lint configuration
   (`clippy.toml`), `repo-metadata.toml`, and dual `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-proof/commits/main
+[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/wickra-lib/wickra-proof/releases/tag/v0.1.0
