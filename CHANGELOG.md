@@ -6,6 +6,28 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-13
+
+Same library and CLI code as 0.1.0; this release exists so that the GitHub
+Release, its assets and the build provenance get produced, which 0.1.0 never
+got.
+
+### Fixed
+
+- **The Maven Central publish is idempotent, and waits as long as Central
+  takes.** The 0.1.0 release run published every package, but the Maven job
+  timed out inside the plugin's default 30-minute wait for Central's
+  validation while the deployment went through anyway. The run was red, so
+  the GitHub Release, its assets and the provenance attestation were skipped,
+  and a rerun could only fail again: Central refuses a second deployment of
+  a version that already exists. The release workflow now checks Central
+  for the version before deploying and skips a version that is already
+  there, and the plugin waits up to two hours (`waitMaxTime`) instead of 30
+  minutes.
+
+- **`SECURITY.md` names the supported release.** It still said nothing had
+  been published.
+
 ## [0.1.0] - 2026-09-13
 
 ### Changed
@@ -176,5 +198,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (`deny.toml`, `osv-scanner.toml`, `lychee.toml`), lint configuration
   (`clippy.toml`), `repo-metadata.toml`, and dual `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wickra-lib/wickra-proof/releases/tag/v0.1.0

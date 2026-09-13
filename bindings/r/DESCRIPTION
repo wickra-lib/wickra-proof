@@ -1,7 +1,7 @@
 Package: wickraproof
 Type: Package
 Title: Deterministic Proof-of-Backtest Core
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("kingchenc", role = c("aut", "cre"), email = "support@wickra.org")
 Description: R bindings for wickra-proof over its C ABI hub: create a stateless
     Prover, prove a (spec, data) pair to a canonical report and blake3 hash, and
