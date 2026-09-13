@@ -735,7 +735,7 @@ jobs:
       - name: Rust
         shell: bash
         run: |
-          out=$(cargo run -q -p wickra-proof-example)
+          out=$(cargo run -q --manifest-path examples/rust/Cargo.toml)
           echo "$out"
           echo "$out" | grep -q 'verify: valid'
           echo "$out" | grep -q "report_hash: $EXAMPLE_HASH"
