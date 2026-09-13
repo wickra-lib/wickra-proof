@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- **The R package builds on Windows.** `bindings/r/.Rbuildignore` excluded
+  `src/Makevars.win` from the source tarball, so a Windows build from the
+  tarball (which is what r-universe builds) linked the package object without
+  the C ABI import library and failed to load. The file ships with the
+  package now, and the ignore list names the staged files as configure
+  actually names them.
+- **The exported R functions are documented.** `wkproof_new`,
+  `wkproof_command` and `wkproof_version` carried roxygen comments but no
+  generated `man/` pages, which `R CMD check` reports as a WARNING.
+
 ## [0.1.1] - 2026-09-13
 
 Same library and CLI code as 0.1.0; this release exists so that the GitHub
