@@ -10,15 +10,14 @@ the asset and trust-boundary breakdown.
 
 ## Supported versions
 
-wickra-proof has not released yet. Until it does there is no supported
-version, and nothing here is running anywhere that a fix could reach.
-
-Once `0.1.0` is out, only the latest release receives security fixes until the
-first stable one.
+This project is pre-1.0 (alpha). Security fixes are applied to the latest
+released version, `0.1.1`, only; please upgrade to the newest release before
+reporting an issue.
 
 | Version | Supported |
 |---------|-----------|
-| none yet | :x: |
+| 0.1.1 (latest) | ✅ |
+| < 0.1.1 | ❌ |
 
 ## Reporting a vulnerability
 

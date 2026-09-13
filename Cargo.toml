@@ -17,7 +17,7 @@ members = ["crates/wickra-proof-core", "crates/wickra-proof-cli", "crates/proof-
 exclude = ["fuzz"]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.86"
 license = "MIT OR Apache-2.0"
@@ -48,7 +48,7 @@ categories = ["finance", "command-line-utilities"]
 # its own manifest.
 wickra-backtest-core = "=0.1.4"
 # Workspace-internal crate, referenced by the CLI, bench and bindings.
-wickra-proof-core = { version = "0.1.0", path = "crates/wickra-proof-core" }
+wickra-proof-core = { version = "0.1.1", path = "crates/wickra-proof-core" }
 # Serialization — the data-driven boundary (spec/proof/report/command as JSON).
 serde = { version = "1", features = ["derive"] }
 # `float_roundtrip` makes serde_json's float parser correctly rounded: a float
