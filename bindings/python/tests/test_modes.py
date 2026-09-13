@@ -14,17 +14,15 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-
 from wickra_proof import Prover
 
 
-def _golden_dir() -> Path | None:
+def _golden_dir() -> Path:
     for parent in Path(__file__).resolve().parents:
         g = parent / "golden"
         if (g / "specs").is_dir():
             return g
-    return None
+    raise FileNotFoundError("golden/specs not found above the test file")
 
 
 GOLDEN = _golden_dir()
@@ -39,7 +37,6 @@ def _reordered(value):
     return value
 
 
-@pytest.mark.skipif(GOLDEN is None, reason="golden fixtures not present")
 def test_committed_and_host_serialised_inputs_prove_alike() -> None:
     data_text = (GOLDEN / "data.json").read_text()
     data = json.loads(data_text)

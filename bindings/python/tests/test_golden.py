@@ -10,24 +10,21 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-
 from wickra_proof import Prover
 
 
-def _golden_dir() -> Path | None:
+def _golden_dir() -> Path:
     """Walk up from this test file to the repo root that holds golden/specs."""
     for parent in Path(__file__).resolve().parents:
         g = parent / "golden"
         if (g / "specs").is_dir():
             return g
-    return None
+    raise FileNotFoundError("golden/specs not found above the test file")
 
 
 GOLDEN = _golden_dir()
 
 
-@pytest.mark.skipif(GOLDEN is None, reason="golden fixtures not present")
 def test_golden_proofs_are_byte_identical() -> None:
     data = json.loads((GOLDEN / "data.json").read_text())
     spec_paths = sorted((GOLDEN / "specs").glob("*.json"))
