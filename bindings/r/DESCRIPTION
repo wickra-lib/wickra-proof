@@ -13,5 +13,5 @@ Encoding: UTF-8
 NeedsCompilation: yes
 SystemRequirements: the wickra-proof C ABI shared library (WKPROOF_LIB) and its
     header (WKPROOF_INC).
-Depends: R (>= 2.10)
+Depends: R (>= 4.1)
 Config/roxygen2/version: 8.0.0
