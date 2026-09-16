@@ -1,48 +1,137 @@
-# Examples
+# Wickra Proof examples
 
 A runnable "prove then verify" example in every language. Each one proves the
 same `(spec, data)` pair — an EMA-cross strategy on a short V-shaped price path
 for symbol `AAA` — prints the resulting `report_hash`, then verifies the proof
 against its own inputs and asserts the verdict is `valid`.
 
-Because the report hash is a canonical, cross-language digest of the backtest
-report, **every language prints the exact same hash**. That byte-for-byte
-agreement is the whole point of `wickra-proof`: a proof produced in one language
-verifies in any other.
+## Rust — `examples/rust/`
 
-| Language | Path | Run |
-|----------|------|-----|
-| Rust | [`rust/`](rust/) | `cargo run -p wickra-proof-example` |
-| Python | [`python/prove.py`](python/prove.py) | `pip install wickra-proof && python examples/python/prove.py` |
-| Node.js | [`node/`](node/) | `cd examples/node && npm install && node prove.js` |
-| C / C++ | [`c/`](c/) | see below |
-| Go | [`go/`](go/) | `cd examples/go && go run .` |
-| .NET | [`csharp/Prove/`](csharp/Prove/) | `dotnet run --project examples/csharp/Prove` |
-| Java | [`java/Prove.java`](java/Prove.java) | see the header comment |
-| R | [`r/prove.R`](r/prove.R) | `Rscript examples/r/prove.R` |
-| WASM | [`wasm/`](wasm/) | static browser demo — see [`wasm/README.md`](wasm/README.md) |
-
-The native bindings (Python, Node.js) load their own compiled library. The
-bindings that go through the C ABI (Go, .NET, Java, R, and the C/C++ example
-itself) need the C ABI library built first:
+As the CI examples job runs it, from the repository root:
 
 ```bash
-cargo build --release -p wickra-proof-c
+cargo run -q --manifest-path examples/rust/Cargo.toml
 ```
 
-## C / C++
+| Example | What it does |
+| --- | --- |
+| `src/main.rs` | A runnable Rust example: prove a (spec, data) pair with the native `prove` API, print the report hash, then verify the proof and assert it holds. |
 
-The C and C++ examples build with CMake and run under ctest:
+## C / C++ — `examples/c/`
+
+Build the library first (`cargo build -p wickra-proof-c --release`), then build and run
+the examples via CMake, as the CI C ABI job does:
 
 ```bash
-cargo build --release -p wickra-proof-c
 cmake -S examples/c -B examples/c/build
 cmake --build examples/c/build --config Release
 ctest --test-dir examples/c/build -C Release --output-on-failure
 ```
 
-On Windows the build copies `wickra_proof.dll` next to each executable, since
-there is no rpath.
+| Example | What it does |
+| --- | --- |
+| `prove.c` | A minimal C example: prove a (spec, data) pair through the wickra-proof C ABI, |
+| `prove.cpp` | A minimal C++ example: prove a (spec, data) pair through the wickra-proof C ABI, print the report hash, then verify the proof and assert it holds. |
+
+## C# — `examples/csharp/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+dotnet run --project examples/csharp/Prove
+```
+
+| Example | What it does |
+| --- | --- |
+| `Prove/Program.cs` | A runnable .NET example: prove a (spec, data) pair through the binding, print the report hash, then verify the proof and assert it holds. |
+
+## Go — `examples/go/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+cd examples/go && go run .
+```
+
+| Example | What it does |
+| --- | --- |
+| `prove.go` | A runnable Go example: prove a (spec, data) pair through the binding, print the report hash, then verify the proof and assert it holds. |
+
+## R — `examples/r/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+R CMD INSTALL bindings/r
+Rscript examples/r/prove.R
+```
+
+| Example | What it does |
+| --- | --- |
+| `prove.R` | A runnable R example: prove a (spec, data) pair through the binding, print the report hash, then verify the proof and assert it holds. |
+
+## Java — `examples/java/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+mvn -f bindings/java/pom.xml -q package -DskipTests
+javac -cp bindings/java/target/classes examples/java/Prove.java -d examples/java/out
+java --enable-native-access=ALL-UNNAMED  -Dnative.lib.dir="$PWD/target/release"  -cp "bindings/java/target/classes:examples/java/out" Prove
+```
+
+| Example | What it does |
+| --- | --- |
+| `Prove.java` | A runnable Java example: prove a (spec, data) pair through the binding, print the report hash, then verify the proof and assert it holds. |
+
+## Python — `examples/python/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+python -m pip install --require-hashes -r .github/requirements/ci-dev-py3.txt
+( cd bindings/python && maturin build --release --out dist )
+python -m pip install --no-index --find-links bindings/python/dist wickra-proof
+python examples/python/prove.py
+```
+
+| Example | What it does |
+| --- | --- |
+| `prove.py` | A runnable Python example: prove a (spec, data) pair through the binding, |
+
+## Node.js — `examples/node/`
+
+As the CI examples job runs it, from the repository root:
+
+```bash
+( cd bindings/node && npm install --no-audit --no-fund && npx napi build --platform --release )
+( cd examples/node && npm install --no-audit --no-fund )
+node examples/node/prove.js
+```
+
+| Example | What it does |
+| --- | --- |
+| `prove.js` | A runnable Node.js example: prove a (spec, data) pair through the binding, print the report hash, then verify the proof and assert it holds. |
+
+## WASM — `examples/wasm/`
+
+Build the WASM package, serve the repository root, and open the page in a browser;
+the module script inside it is what runs (CI parses it with `node --check`):
+
+```bash
+wasm-pack build bindings/wasm --target web
+python -m http.server 8000     # then open http://localhost:8000/examples/wasm/
+```
+
+| Example | What it does |
+| --- | --- |
+| `prove.html` | A runnable example against this binding. |
+
+## Example datasets
+
+The examples read from [`examples/data/`](data/): `config.json`, `config.proof.json`. The
+cross-language golden fixtures, which every binding is checked against byte for
+byte, live in [`../golden/`](../golden).
 
 ## Data
 
@@ -55,26 +144,3 @@ cross-language checks:
 | [`data/specs/example.json`](data/specs/example.json) | the `ProofSpec` (EMA-cross on `AAA`, `1h`) |
 | [`data/candles/AAA.csv`](data/candles/AAA.csv) | the 12-bar V-shaped price path (`ts,open,high,low,close,volume`) |
 | [`data/proofs/example.json`](data/proofs/example.json) | the resulting canonical `Proof` (its `report_hash` matches the runs below) |
-
-## Expected output
-
-Every example prints the version, the report hash, and the verify verdict:
-
-```text
-wickra-proof 0.1.0
-report_hash: b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d
-verify: valid
-```
-
-The hash is identical in every language — that is the guarantee:
-
-| Language | `report_hash` |
-|----------|---------------|
-| Rust | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| Python | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| Node.js | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| C / C++ | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| Go | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| .NET | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| Java | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
-| R | `b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d` |
