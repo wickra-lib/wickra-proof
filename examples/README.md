@@ -5,6 +5,16 @@ same `(spec, data)` pair — an EMA-cross strategy on a short V-shaped price pat
 for symbol `AAA` — prints the resulting `report_hash`, then verifies the proof
 against its own inputs and asserts the verdict is `valid`.
 
+## What every example prints
+
+Every example prints the version, the report hash, and the verify verdict:
+
+```text
+wickra-proof 0.1.2
+report_hash: b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d
+verify: valid
+```
+
 ## Rust — `examples/rust/`
 
 As the CI examples job runs it, from the repository root:
