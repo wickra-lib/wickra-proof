@@ -42,7 +42,7 @@ This emits `pkg/` with the `.wasm` module and JS glue.
 ## Quick start
 
 ```js
-import init, { Prover, version } from "./pkg/wickra_proof_wasm.js";
+import init, { Prover, version } from "wickra-proof-wasm";
 
 await init();
 
