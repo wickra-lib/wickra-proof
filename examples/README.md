@@ -10,7 +10,7 @@ against its own inputs and asserts the verdict is `valid`.
 Every example prints the version, the report hash, and the verify verdict:
 
 ```text
-wickra-proof 0.1.2
+wickra-proof 0.1.3
 report_hash: b63909002621f33009f3259fa13c194e5e7c1bf5fb81a94359d53f1318399b0d
 verify: valid
 ```
