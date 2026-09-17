@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514" alt="Wickra Proof — a deterministic (spec, data) → blake3 hash, byte-identical across ten languages" width="100%"></a>
+  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514-7" alt="Wickra Proof — a deterministic (spec, data) → blake3 hash, byte-identical across ten languages" width="100%"></a>
 </p>
 
 [![Built on Wickra](https://img.shields.io/badge/built%20on-wickra-3b82f6)](https://github.com/wickra-lib/wickra)
@@ -19,16 +19,18 @@
 [![OpenSSF Scorecard](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/scorecard.svg)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-proof)
 [![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/best-practices.svg)](https://www.bestpractices.dev)
 [![Build provenance](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/provenance.svg)](https://github.com/wickra-lib/wickra-proof/attestations)
-[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/docs.svg)](https://wickra.org)
+[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/docs.svg)](https://proof.wickra.org)
 [![Verified across 10 languages](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-proof/verified.svg)](golden/)
 
 ---
 
-# Wickra Proof
-
 **Proof-of-Backtest. Turn a `(spec, data)` pair into a deterministic backtest report *and* a canonical blake3 hash that anyone can recompute byte-for-byte in ten languages.**
 
-> **Part of the [Wickra ecosystem](https://github.com/wickra-lib):** the same data-driven core and ten-language binding surface also power [wickra-exchange](https://github.com/wickra-lib/wickra-exchange), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-terminal](https://github.com/wickra-lib/wickra-terminal) and 20 more — see [the full list](https://github.com/wickra-lib).
+> **▶ Live demos:** the backtester compiled to WebAssembly, an equity curve building bar by bar — **[backtest-live.wickra.org](https://backtest-live.wickra.org)**;
+> one StrategySpec side by side in Python, Rust, JS and Go — **[playground.wickra.org](https://playground.wickra.org)**;
+> all 514 indicators of the core over a real Binance feed — **[live.wickra.org](https://live.wickra.org)**. Zero backend, all of them.
+
+**Part of the [Wickra ecosystem](#ecosystem):** the same data-driven core and ten-language binding surface also power [wickra-exchange](https://github.com/wickra-lib/wickra-exchange), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-terminal](https://github.com/wickra-lib/wickra-terminal) and 20 more — see [the full list](https://github.com/wickra-lib).
 
 `wickra-proof` is a thin, deterministic layer over the Wickra backtest engine.
 Given a strategy spec and candle data it produces a `BacktestReport` and a
@@ -74,6 +76,20 @@ cargo run -p wickra-proof-cli -- verify \
   --data examples/data/candles/AAA.csv
 ```
 
+## Status
+
+**0.1.2 — the current release.** The core
+([`wickra-proof-core`](crates/wickra-proof-core)), the CLI, all ten language
+bindings, the byte-exact golden corpus, property + fuzz tests, benchmarks and
+one runnable example per language are in place and green across the full CI
+matrix (10 languages × 3 OS). Track progress in [ROADMAP.md](ROADMAP.md).
+
+## Documentation
+
+- [Architecture](ARCHITECTURE.md) — the core, the canonicalization boundary, the binding surface.
+- Deep dives in [`docs/`](docs): [Architecture internals](docs/ARCHITECTURE.md) · [Canonicalization (normative)](docs/CANONICAL.md) · [Proof format](docs/PROOF_FORMAT.md) · [Verifying a foreign proof](docs/VERIFYING.md).
+- [ROADMAP.md](ROADMAP.md) · [BENCHMARKS.md](BENCHMARKS.md) · [THREAT_MODEL.md](THREAT_MODEL.md) · [SECURITY.md](SECURITY.md).
+
 ## Determinism is the product
 
 - **Canonical JSON before hashing:** keys sorted at every depth (`BTreeMap`),
@@ -87,21 +103,6 @@ cargo run -p wickra-proof-cli -- verify \
   produces a different, visibly-labelled hash by design.
 - Any divergence of `report_hash` between two languages or two runs is a bug,
   caught by the byte-exact golden corpus and the canonicalize fuzz target.
-
-## Status
-
-**Pre-release — functionally complete, CI-verified, not yet published.** The core
-([`wickra-proof-core`](crates/wickra-proof-core)), the CLI, all ten language bindings, the
-byte-exact golden corpus, property + fuzz tests, benchmarks and one runnable
-example per language are in place and green across the full CI matrix (10
-languages × 3 OS). Not yet released to any registry — track progress in
-[ROADMAP.md](ROADMAP.md).
-
-## Documentation
-
-- [Architecture](ARCHITECTURE.md) — the core, the canonicalization boundary, the binding surface.
-- Deep dives in [`docs/`](docs): [Architecture internals](docs/ARCHITECTURE.md) · [Canonicalization (normative)](docs/CANONICAL.md) · [Proof format](docs/PROOF_FORMAT.md) · [Verifying a foreign proof](docs/VERIFYING.md).
-- [ROADMAP.md](ROADMAP.md) · [BENCHMARKS.md](BENCHMARKS.md) · [THREAT_MODEL.md](THREAT_MODEL.md) · [SECURITY.md](SECURITY.md).
 
 ## Quickstart
 
@@ -266,8 +267,20 @@ proof does and does not guarantee — is in [THREAT_MODEL.md](THREAT_MODEL.md).
 
 ## License
 
-Dual-licensed under either [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at
-your option.
+Licensed under either of
+
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or
+  <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+
+at your option. Use it, fork it, modify it, redistribute it — commercially or
+not — file issues, send pull requests; all welcome.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
+dual licensed as above, without any additional terms or conditions.
 
 ## Disclaimer
 
