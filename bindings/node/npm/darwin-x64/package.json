@@ -1,6 +1,6 @@
 {
   "name": "wickra-proof-darwin-x64",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Native binding for wickra-proof (darwin-x64). Installed automatically as an optional dependency of wickra-proof on matching platforms.",
   "main": "wickra-proof.darwin-x64.node",
   "files": [
