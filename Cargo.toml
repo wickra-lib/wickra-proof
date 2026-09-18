@@ -46,7 +46,7 @@ categories = ["finance", "command-line-utilities"]
 # and two definitions of one type is the failure this repository exists to
 # rule out. wickra-strategy-ci reached the same conclusion and records it in
 # its own manifest.
-wickra-backtest-core = "=0.1.6"
+wickra-backtest-core = "=0.1.7"
 # Workspace-internal crate, referenced by the CLI, bench and bindings.
 wickra-proof-core = { version = "0.1.3", path = "crates/wickra-proof-core" }
 # Serialization — the data-driven boundary (spec/proof/report/command as JSON).
