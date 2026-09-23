@@ -809,7 +809,7 @@ dependencies = [
 
 [[package]]
 name = "proof-bench"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "codspeed-criterion-compat",
  "serde_json",
@@ -1328,9 +1328,9 @@ dependencies = [
 
 [[package]]
 name = "wasip2"
-version = "1.0.4+wasi-0.2.12"
+version = "1.0.1+wasi-0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b67efb37e106e55ce722a510d6b5f9c17f083e5fc79afc2badeb12cc313d9487"
+checksum = "0562428422c63773dad2c345a1882263bbf4d65cf3f42e90921f787ef5ad58e7"
 dependencies = [
  "wit-bindgen",
 ]
@@ -1392,9 +1392,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-backtest-core"
-version = "0.1.7"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42834428a01fa2de6e52a1bdec23fc85d5ede7193ae95e8e4349a8b2c8796cda"
+checksum = "1ff75dcf5ca69c5ab83db9ab237fcd32c4f505bbc6b59d7088c566bb984ca34f"
 dependencies = [
  "schemars",
  "serde",
@@ -1405,9 +1405,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-core"
-version = "1.0.5"
+version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "911f903b829bbaf0f5e428e2126f512f3e8e04d086f72506cc6093a11182c5ef"
+checksum = "71aaaaa211d2784cad85409213fe5d64b303dd5711c91cc861ac6962ae8fea3e"
 dependencies = [
  "rayon",
  "thiserror",
@@ -1415,14 +1415,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-c"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-cli"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "clap",
  "serde_json",
@@ -1431,7 +1431,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-core"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "blake3",
  "proptest",
@@ -1444,7 +1444,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-example"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "serde_json",
  "wickra-proof-core",
@@ -1452,7 +1452,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-node"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "napi",
  "napi-build",
@@ -1462,7 +1462,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-python"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "pyo3",
  "wickra-proof-core",
@@ -1470,7 +1470,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-wasm"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "wasm-bindgen",
  "wickra-proof-core",
@@ -1508,9 +1508,9 @@ checksum = "23b97319f7b8343df12cc98938e5c3eb436064524c8d2b4e30a1d3a36eecdf81"
 
 [[package]]
 name = "wit-bindgen"
-version = "0.57.1"
+version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e"
+checksum = "f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59"
 
 [[package]]
 name = "zerocopy"
