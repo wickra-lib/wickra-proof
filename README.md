@@ -78,7 +78,7 @@ cargo run -p wickra-proof-cli -- verify \
 
 ## Status
 
-**0.1.3 — the current release.** The core
+**0.1.4 — the current release.** The core
 ([`wickra-proof-core`](crates/wickra-proof-core)), the CLI, all ten language
 bindings, the byte-exact golden corpus, property + fuzz tests, benchmarks and
 one runnable example per language are in place and green across the full CI
