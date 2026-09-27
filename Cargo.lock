@@ -809,7 +809,7 @@ dependencies = [
 
 [[package]]
 name = "proof-bench"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "codspeed-criterion-compat",
  "serde_json",
@@ -978,6 +978,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "ref-cast"
+version = "1.0.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e440fb4e4b4147295338efb76001ab9e4efc0e5839df2c47fc5ac2381d365c3"
+dependencies = [
+ "ref-cast-impl",
+]
+
+[[package]]
+name = "ref-cast-impl"
+version = "1.0.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "92ecd8964f8453721699a1ed72037b0db49ce2f5a5138486ee89bed6f67cdf3a"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 3.0.6",
+]
+
+[[package]]
 name = "regex"
 version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1054,11 +1074,12 @@ dependencies = [
 
 [[package]]
 name = "schemars"
-version = "0.8.22"
+version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fbf2ae1b8bc8e02df939598064d22402220cd5bbcca1c76f7d6a310974d5615"
+checksum = "687274d293b6cdc6e73e0fee520bf2049650090d7164f87672d212a3c530cf4a"
 dependencies = [
  "dyn-clone",
+ "ref-cast",
  "schemars_derive",
  "serde",
  "serde_json",
@@ -1066,14 +1087,14 @@ dependencies = [
 
 [[package]]
 name = "schemars_derive"
-version = "0.8.22"
+version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32e265784ad618884abaea0600a9adf15393368d840e0222d101a072f3f7534d"
+checksum = "d98c67716b46af2f0b8cf752abc930f6f9aecfbf671ecfb531db8a31dbe4e2ba"
 dependencies = [
  "proc-macro2",
  "quote",
  "serde_derive_internals",
- "syn 2.0.119",
+ "syn 3.0.6",
 ]
 
 [[package]]
@@ -1114,13 +1135,13 @@ dependencies = [
 
 [[package]]
 name = "serde_derive_internals"
-version = "0.29.1"
+version = "0.30.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18d26a20a969b9e3fdf2fc2d9f21eda6c40e2de84c9408bb5d3b05d499aae711"
+checksum = "f852137cce035d6a4df67ccce505ff6b3e9fd3a10e3e52b24dc71e650bb1a9bd"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.119",
+ "syn 3.0.6",
 ]
 
 [[package]]
@@ -1392,9 +1413,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-backtest-core"
-version = "0.1.8"
+version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ff75dcf5ca69c5ab83db9ab237fcd32c4f505bbc6b59d7088c566bb984ca34f"
+checksum = "436b31028d78e0db12ecb4030339fe4301e4abc0b12439b194d2b955a5eed15d"
 dependencies = [
  "schemars",
  "serde",
@@ -1415,14 +1436,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-c"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-cli"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "clap",
  "serde_json",
@@ -1431,7 +1452,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-core"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "blake3",
  "proptest",
@@ -1444,7 +1465,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-example"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "serde_json",
  "wickra-proof-core",
@@ -1452,7 +1473,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-node"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "napi",
  "napi-build",
@@ -1462,7 +1483,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-python"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "pyo3",
  "wickra-proof-core",
@@ -1470,7 +1491,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-wasm"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "wasm-bindgen",
  "wickra-proof-core",
