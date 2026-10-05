@@ -18,6 +18,9 @@ A follow-up release on the wickra 2.0 family.
   tracked lockfile follows. Indicators the audit corrected return the values of
   their published definitions; wickra's changelog lists them, with the warmup
   changes and the new defaults.
+- **The golden proofs and the shipped example proof are re-generated.** Only
+  the recorded engine version and inputs hash move; every report hash is
+  unchanged, and the README's verify command still prints `valid`.
 
 ## [0.1.5] - 2026-09-27
 
