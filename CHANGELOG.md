@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-06
+
+A follow-up release on the wickra 2.0 family.
+
+### Changed
+
+- **Built on wickra 2.0 and wickra-backtest 0.2.0.** `wickra-core` 2.0, the
+  formula-audit release of the indicator core, arrives through wickra-backtest;
+  the exact pin on `wickra-backtest-core` moves from =0.1.9 to =0.2.0; every
+  tracked lockfile follows. Indicators the audit corrected return the values of
+  their published definitions; wickra's changelog lists them, with the warmup
+  changes and the new defaults.
+- **The golden proofs and the shipped example proof are re-generated.** Only
+  the recorded engine version and inputs hash move; every report hash is
+  unchanged, and the README's verify command still prints `valid`.
+
 ## [0.1.5] - 2026-09-27
 
 A follow-up release: the prover, its proof format and its bindings are
@@ -345,7 +361,8 @@ got.
   (`deny.toml`, `osv-scanner.toml`, `lychee.toml`), lint configuration
   (`clippy.toml`), `repo-metadata.toml`, and dual `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.5...v0.2.0
 [0.1.5]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.2...v0.1.3
