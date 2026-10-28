@@ -6,6 +6,36 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-28
+
+A maintenance release: the prover, its proofs and their verification are
+unchanged.
+
+### Changed
+
+- **Built on wickra-core 2.1.0.** The lock takes the indicator core's minor
+  release, reached through the family crates; the `2.0` requirement already
+  admitted it. It adds `RunningDrawdown` and updates `MaxDrawdown` in amortised
+  O(1) with the same values; nothing here computes differently.
+- **The family pins follow the owners' releases.** `wickra-backtest-core` =0.2.0
+  -> =0.2.1 -- the exact pins this repository keeps on its siblings move to the
+  versions those repositories release in the same train, and every tracked
+  lockfile follows. The golden proofs and the shipped example proof are
+  re-generated: only the recorded engine version and inputs hash move; every
+  report hash is unchanged, and the README's verify command still prints
+  `valid`.
+- **uv 0.13.5** for the lockfile bootstrap in `scripts/update-lockfiles.sh`.
+- **The ecosystem list quotes the backtest registry's count** (495) for the
+  products that resolve indicators through it, rather than the core's 514.
+
+### Fixed
+
+- **`central-publishing-maven-plugin` 0.12.0** for the Java binding. Since
+  early October the GitHub runners carry Maven 3.10.0, which writes
+  `maven-metadata-local.xml` and `_remote.repositories` into the staging
+  directory; 0.11.0 bundles them, and Central rejects the deployment with
+  "Bundle has content that does NOT have a .pom file".
+
 ## [0.2.0] - 2026-10-06
 
 A follow-up release on the wickra 2.0 family.
@@ -361,7 +391,8 @@ got.
   (`deny.toml`, `osv-scanner.toml`, `lychee.toml`), lint configuration
   (`clippy.toml`), `repo-metadata.toml`, and dual `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-proof/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/wickra-lib/wickra-proof/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.5...v0.2.0
 [0.1.5]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/wickra-lib/wickra-proof/compare/v0.1.3...v0.1.4
