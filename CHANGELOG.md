@@ -18,9 +18,16 @@ Go 1.27, and ships the refreshed dependency tree.
   `StochRsi` values are now exactly 100 (and 0), and `TtmSqueeze` detrends its
   momentum per bar, as the reference does, with a warmup of `2 * period - 1`;
   anything here that runs those indicators can report different values with it.
-- **Third-party dependencies refreshed.** `Cargo.lock` takes 59 crates at their
+- **The family pins follow the owners' releases.** `wickra-backtest-core` =0.2.1
+  -> =0.2.2 -- the exact pins this repository keeps on its siblings move to the
+  versions those repositories release in the same train, and every tracked
+  lockfile follows. The golden proofs and the shipped example proof are
+  re-generated: only the recorded engine version and inputs hash move; every
+  report hash is unchanged, and the README's verify command still prints
+  `valid`.
+- **Third-party dependencies refreshed.** `Cargo.lock` takes 68 crates at their
   latest releases within the declared ranges. The npm and Python dev locks are
-  re-resolved the same way. No manifest changed.
+  re-resolved the same way. The refresh itself changes no manifest.
 - **Dependabot's monthly updates** (GitHub Actions, Cargo, Maven, npm, NuGet): 7
   pull requests, each checked against the versions the rest of the family holds.
 - **CI and release workflow:** point osv-scanner at the Python lockfiles it was
