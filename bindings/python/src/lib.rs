@@ -47,7 +47,8 @@ impl PyProver {
 
 /// The native module (`wickra_proof._wickra_proof`).
 #[pymodule]
-fn _wickra_proof(module: &Bound<'_, PyModule>) -> PyResult<()> {
+#[pyo3(name = "_wickra_proof")]
+fn wickra_proof_extension(module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add("__version__", env!("CARGO_PKG_VERSION"))?;
     module.add_class::<PyProver>()?;
     Ok(())
