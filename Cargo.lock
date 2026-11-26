@@ -818,7 +818,7 @@ dependencies = [
 
 [[package]]
 name = "proof-bench"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "codspeed-criterion-compat",
  "serde_json",
@@ -1421,9 +1421,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-backtest-core"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c4192b5075e3dc4ac7a396bc663d3b4f770291c41404c461568edfd2407d088"
+checksum = "784ef403482c5edce04fbe426840337cd6f56619c60becd38666b7faac7f5827"
 dependencies = [
  "schemars",
  "serde",
@@ -1445,14 +1445,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-c"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-cli"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "clap",
  "serde_json",
@@ -1461,7 +1461,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-core"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "blake3",
  "proptest",
@@ -1474,7 +1474,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-example"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "serde_json",
  "wickra-proof-core",
@@ -1482,7 +1482,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-node"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "napi",
  "napi-build",
@@ -1492,7 +1492,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-python"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "pyo3",
  "wickra-proof-core",
@@ -1500,7 +1500,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-wasm"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "wasm-bindgen",
  "wickra-proof-core",
