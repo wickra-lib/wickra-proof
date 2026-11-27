@@ -818,7 +818,7 @@ dependencies = [
 
 [[package]]
 name = "proof-bench"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "codspeed-criterion-compat",
  "serde_json",
@@ -1421,9 +1421,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-backtest-core"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "784ef403482c5edce04fbe426840337cd6f56619c60becd38666b7faac7f5827"
+checksum = "5e7be2d327c5670e9ffdb9c726714cbb204730ff9a00e1b869364256b9c9dfc2"
 dependencies = [
  "schemars",
  "serde",
@@ -1434,9 +1434,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-core"
-version = "2.2.0"
+version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af847c3d4315da719b2725da7df234446cf6aa604b524ada7f8ca4ad6f24b3ef"
+checksum = "9509eb4af5a3d5036e16c11039032e5c834041117851f4833dbf961161974743"
 dependencies = [
  "rayon",
  "thiserror",
@@ -1445,14 +1445,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-c"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "wickra-proof-core",
 ]
 
 [[package]]
 name = "wickra-proof-cli"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "clap",
  "serde_json",
@@ -1461,7 +1461,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-core"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "blake3",
  "proptest",
@@ -1474,7 +1474,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-example"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "serde_json",
  "wickra-proof-core",
@@ -1482,7 +1482,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-node"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "napi",
  "napi-build",
@@ -1492,7 +1492,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-python"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "pyo3",
  "wickra-proof-core",
@@ -1500,7 +1500,7 @@ dependencies = [
 
 [[package]]
 name = "wickra-proof-wasm"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "wasm-bindgen",
  "wickra-proof-core",
@@ -1508,9 +1508,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-simd"
-version = "2.2.0"
+version = "2.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b76d2ecef2a65e6ab8179f989d609400bc066e92c7d84a9ec7960d2a8cf79b2b"
+checksum = "3cbff8e9a1d8a87ce3206db66056181f70b833645219c7cc2a77abb00a083663"
 
 [[package]]
 name = "winapi-util"
