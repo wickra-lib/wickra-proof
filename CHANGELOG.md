@@ -12,6 +12,13 @@ A release of the build and release pipeline; the library code is unchanged.
 
 ### Changed
 
+- **The family pins follow the owners' releases.** `wickra-backtest-core` =0.2.2
+  -> =0.2.3 -- the exact pins this repository keeps on its siblings move to the
+  versions those repositories release in the same train, and every tracked
+  lockfile follows. The golden proofs and the shipped example proof are
+  re-generated: only the recorded engine version and inputs hash move; every
+  report hash is unchanged, and the README's verify command still prints
+  `valid`.
 - **The Maven sources jar no longer carries the native libraries.** The release
   workflow stages every platform's library into the resources before the
   deploy, and the sources jar packed them a second time. A release's size on
